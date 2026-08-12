@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BrightSmile Admin Login</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #eaf3ff, #f8fbff);
+        padding: 20px;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 430px;
+        background: white;
+        padding: 45px 40px;
+        border-radius: 25px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+    }
+
+    .logo {
+        text-align: center;
+        font-size: 30px;
+        font-weight: 700;
+        color: #0d6efd;
+        margin-bottom: 10px;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #777;
+        margin-bottom: 35px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #0b2545;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        font-size: 15px;
+        font-family: inherit;
+        outline: none;
+        transition: 0.3s;
+    }
+
+    .form-group input:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+    }
+
+    .login-btn {
+        width: 100%;
+        border: none;
+        background: #0d6efd;
+        color: white;
+        padding: 15px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: inherit;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 5px;
+    }
+
+    .login-btn:hover {
+        background: #084fc7;
+        transform: translateY(-2px);
+    }
+
+    .error-message {
+        display: none;
+        background: #ffe8eb;
+        color: #b02a37;
+        border: 1px solid #f5c2c7;
+        padding: 12px 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 25px;
+        color: #0d6efd;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 500px) {
+
+        .login-card {
+            padding: 35px 25px;
+        }
+
+        .logo {
+            font-size: 26px;
+        }
+
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<div class="login-card">
+
+    <div class="logo">
+        🦷 BrightSmile Admin
+    </div>
+
+    <p class="subtitle">
+        Sign in to manage appointments
+    </p>
+
+
+    <div
+        id="errorMessage"
+        class="error-message">
+
+        Invalid username or password.
+
+    </div>
+
+
+    <form id="loginForm">
+
+        <div class="form-group">
+
+            <label for="username">
+                Username
+            </label>
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Enter username"
+                autocomplete="username"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter password"
+                autocomplete="current-password"
+                required>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="login-btn">
+
+            Login
+
+        </button>
+
+    </form>
+
+
+    <a
+        href="index.html"
+        class="back-link">
+
+        ← Back to Website
+
+    </a>
+
+</div>
+
+
+<script>
+
+    const ADMIN_USERNAME = "admin";
+    const ADMIN_PASSWORD = "brightsmile123";
+
+    const loginForm =
+        document.getElementById("loginForm");
+
+    const errorMessage =
+        document.getElementById("errorMessage");
+
+
+    loginForm.addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const username =
+            document.getElementById("username").value.trim();
+
+        const password =
+            document.getElementById("password").value;
+
+
+        if (
+            username === ADMIN_USERNAME &&
+            password === ADMIN_PASSWORD
+        ) {
+
+            sessionStorage.setItem(
+                "brightSmileAdminLoggedIn",
+                "true"
+            );
+
+            window.location.href = "admin.html";
+
+        } else {
+
+            errorMessage.style.display = "block";
+
+        }
+
+    });
+
+</script>
+```
+
+</body>
+
+</html>
