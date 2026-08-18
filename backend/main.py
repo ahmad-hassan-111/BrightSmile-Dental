@@ -1,8 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from pathlib import Path
-import json
+import os
+import psycopg
 from datetime import datetime
 
 
@@ -25,6 +25,7 @@ app.add_middleware(
     allow_origins=[
         "http://127.0.0.1:5500",
         "http://localhost:5500"
+        "https://bright-smile-dental-smoky.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -33,37 +34,136 @@ app.add_middleware(
 
 
 # ==========================
-# DATABASE FILE
+# DATABASE
 # ==========================
 
-DATABASE_FILE = Path("appointments.json")
+DATABASE_URL = os.environ["DATABASE_URL"]
 
 
-# ==========================
-# DATABASE FUNCTIONS
-# ==========================
+def get_connection():
+
+    return psycopg.connect(
+        DATABASE_URL,
+        sslmode="require"
+    )
+
+
+def setup_database():
+
+    with get_connection() as conn:
+
+        with conn.cursor() as cursor:
+
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS appointments (
+                    id BIGINT PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    phone TEXT NOT NULL,
+                    email TEXT NOT NULL,
+                    date TEXT NOT NULL,
+                    time TEXT NOT NULL,
+                    service TEXT NOT NULL,
+                    message TEXT DEFAULT '',
+                    status TEXT NOT NULL,
+                    "submittedAt" TEXT NOT NULL
+                )
+            """)
+
+        conn.commit()
+
+
+setup_database()
+
 
 def load_appointments():
 
-    if not DATABASE_FILE.exists():
-        return []
+    with get_connection() as conn:
 
-    try:
+        with conn.cursor() as cursor:
 
-        with open(
-            DATABASE_FILE,
-            "r",
-            encoding="utf-8"
-        ) as file:
+            cursor.execute("""
+                SELECT
+                    id,
+                    name,
+                    phone,
+                    email,
+                    date,
+                    time,
+                    service,
+                    message,
+                    status,
+                    "submittedAt"
+                FROM appointments
+                ORDER BY id
+            """)
 
-            return json.load(file)
+            rows = cursor.fetchall()
 
-    except (json.JSONDecodeError, OSError):
+            columns = [
+                "id",
+                "name",
+                "phone",
+                "email",
+                "date",
+                "time",
+                "service",
+                "message",
+                "status",
+                "submittedAt"
+            ]
 
-        return []
+            return [
+                dict(zip(columns, row))
+                for row in rows
+            ]
 
 
 def save_appointments(appointments):
+
+    with get_connection() as conn:
+
+        with conn.cursor() as cursor:
+
+            cursor.execute(
+                "DELETE FROM appointments"
+            )
+
+            for appointment in appointments:
+
+                cursor.execute(
+                    """
+                    INSERT INTO appointments (
+                        id,
+                        name,
+                        phone,
+                        email,
+                        date,
+                        time,
+                        service,
+                        message,
+                        status,
+                        "submittedAt"
+                    )
+                    VALUES (
+                        %s, %s, %s, %s, %s,
+                        %s, %s, %s, %s, %s
+                    )
+                    """,
+                    (
+                        appointment["id"],
+                        appointment["name"],
+                        appointment["phone"],
+                        appointment["email"],
+                        appointment["date"],
+                        appointment["time"],
+                        appointment["service"],
+                        appointment["message"],
+                        appointment["status"],
+                        appointment["submittedAt"]
+                    )
+                )
+
+        conn.commit()
 
     with open(
         DATABASE_FILE,
