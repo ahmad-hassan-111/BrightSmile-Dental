@@ -24,7 +24,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://127.0.0.1:5500",
-        "http://localhost:5500"
+        "http://localhost:5500",
         "https://bright-smile-dental-smoky.vercel.app"
     ],
     allow_credentials=True,
@@ -41,7 +41,6 @@ DATABASE_URL = os.environ["DATABASE_URL"]
 
 
 def get_connection():
-
     return psycopg.connect(
         DATABASE_URL,
         sslmode="require"
@@ -165,19 +164,6 @@ def save_appointments(appointments):
 
         conn.commit()
 
-    with open(
-        DATABASE_FILE,
-        "w",
-        encoding="utf-8"
-    ) as file:
-
-        json.dump(
-            appointments,
-            file,
-            indent=4,
-            ensure_ascii=False
-        )
-
 
 # ==========================
 # APPOINTMENT MODEL
@@ -186,17 +172,11 @@ def save_appointments(appointments):
 class Appointment(BaseModel):
 
     name: str
-
     phone: str
-
     email: str
-
     date: str
-
     time: str
-
     service: str
-
     message: str = ""
 
 
@@ -213,7 +193,7 @@ class StatusUpdate(BaseModel):
 # HOME
 # ==========================
 
-@app.get("/")
+@app.get("/api")
 def home():
 
     return {
@@ -225,7 +205,7 @@ def home():
 # TEST
 # ==========================
 
-@app.get("/test")
+@app.get("/api/test")
 def test():
 
     return {
@@ -238,7 +218,7 @@ def test():
 # CREATE APPOINTMENT
 # ==========================
 
-@app.post("/appointments")
+@app.post("/api/appointments")
 def create_appointment(
     appointment: Appointment
 ):
@@ -294,7 +274,7 @@ def create_appointment(
 # GET ALL APPOINTMENTS
 # ==========================
 
-@app.get("/appointments")
+@app.get("/api/appointments")
 def get_appointments():
 
     appointments = load_appointments()
@@ -311,7 +291,7 @@ def get_appointments():
 # UPDATE APPOINTMENT STATUS
 # ==========================
 
-@app.patch("/appointments/{appointment_id}/status")
+@app.patch("/api/appointments/{appointment_id}/status")
 def update_appointment_status(
     appointment_id: int,
     status_update: StatusUpdate
@@ -330,9 +310,7 @@ def update_appointment_status(
             detail="Invalid appointment status."
         )
 
-
     appointments = load_appointments()
-
 
     for appointment in appointments:
 
@@ -355,20 +333,17 @@ def update_appointment_status(
                 "appointment": appointment
             }
 
-
     raise HTTPException(
         status_code=404,
         detail="Appointment not found."
     )
 
 
-
-
 # ==========================
 # DELETE ALL APPOINTMENTS
 # ==========================
 
-@app.delete("/appointments")
+@app.delete("/api/appointments")
 def delete_all_appointments():
 
     save_appointments([])
@@ -378,4 +353,4 @@ def delete_all_appointments():
         "status": "success",
 
         "message": "All appointments deleted."
-    } 
+    }
