@@ -22,10 +22,12 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://127.0.0.1:5500",
-        "http://localhost:5500",
-        "https://bright-smile-dental-smoky.vercel.app"
+        allow_origins=[
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+    "https://bright-smile-dental-smoky.vercel.app",
+    "https://bright-smile-dental-git-main-ahmad-95cb.vercel.app",
+    "https://bright-smile-dental-g3l50u4hy-ahmad-95cb.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
