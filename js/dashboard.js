@@ -3,7 +3,7 @@
 // =====================================================
 
 
- const API_URL = "https://bright-smile-dental-smoky.vercel.app";
+const API_URL = "https://bright-smile-dental-smoky.vercel.app/api";
 
 
 // =====================================================
