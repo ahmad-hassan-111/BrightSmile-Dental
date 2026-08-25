@@ -633,14 +633,13 @@ a {
 
 
 /* ===========================
-   LIGHTBOX
+   GALLERY LIGHTBOX
 =========================== */
 
 .lightbox {
-    display: none;
+    display: flex;
 
     position: fixed;
-
     z-index: 9999;
 
     inset: 0;
@@ -648,40 +647,309 @@ a {
     width: 100%;
     height: 100%;
 
-    background: rgba(0, 0, 0, 0.85);
+    padding: 30px;
 
-    justify-content: center;
+    box-sizing: border-box;
+
+    background: rgba(0, 0, 0, 0.88);
 
     align-items: center;
+    justify-content: center;
 
-    padding: 30px;
-} 
-.lightbox.active {
-    display: flex;
+    visibility: hidden;
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.35s ease,
+        visibility 0.35s ease;
 }
 
-.lightbox img {
-    max-width: 90%;
+.lightbox.active {
+    visibility: visible;
+    opacity: 1;
 
-    max-height: 90%;
+    pointer-events: auto;
+}
+
+
+/* ===========================
+   IMAGE WRAPPER
+=========================== */
+
+.lightbox-image-wrapper {
+    position: relative;
+
+    width: min(900px, 78vw);
+    height: min(80vh, 700px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border-radius: 16px;
+}
+
+
+/* ===========================
+   LIGHTBOX IMAGE
+=========================== */
+
+.lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+
+    width: auto;
+    height: auto;
 
     object-fit: contain;
 
     border-radius: 15px;
+
+    user-select: none;
+
+    will-change: transform, opacity;
+
+    transform: scale(0.85);
+    opacity: 0;
+
+    transition:
+        transform 0.35s ease,
+        opacity 0.35s ease;
 }
+
+.lightbox.active img {
+    transform: scale(1);
+    opacity: 1;
+}
+
+
+/* ===========================
+   IMAGE SLIDE ANIMATIONS
+=========================== */
+
+.lightbox img.slide-next {
+    animation: gallerySlideNext 0.35s ease;
+}
+
+.lightbox img.slide-prev {
+    animation: gallerySlidePrev 0.35s ease;
+}
+
+
+@keyframes gallerySlideNext {
+
+    0% {
+        opacity: 0;
+        transform: translateX(60px) scale(0.96);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+
+}
+
+
+@keyframes gallerySlidePrev {
+
+    0% {
+        opacity: 0;
+        transform: translateX(-60px) scale(0.96);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+
+}
+
+
+/* ===========================
+   NAVIGATION ARROWS
+=========================== */
+
+.lightbox-arrow {
+    position: absolute;
+
+    top: 50%;
+
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    color: #0d6efd;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    z-index: 10001;
+
+    transform: translateY(-50%);
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.lightbox-arrow:hover {
+    background: #0d6efd;
+
+    color: #ffffff;
+
+    transform: translateY(-50%) scale(1.08);
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+
+.lightbox-prev {
+    left: 30px;
+}
+
+
+.lightbox-next {
+    right: 30px;
+}
+
+
+/* ===========================
+   CLOSE BUTTON
+=========================== */
 
 .close-lightbox {
     position: absolute;
 
     top: 20px;
+    right: 25px;
 
-    right: 35px;
+    width: 50px;
+    height: 50px;
 
-    font-size: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    color: white;
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    color: #222;
+
+    font-size: 34px;
+    line-height: 1;
 
     cursor: pointer;
+
+    z-index: 10002;
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease;
+}
+
+
+.close-lightbox:hover {
+    background: #ffffff;
+
+    transform: rotate(90deg);
+}
+
+
+/* ===========================
+   MOBILE LIGHTBOX
+=========================== */
+
+@media (max-width: 768px) {
+
+    .lightbox {
+        padding: 20px;
+    }
+
+    .lightbox-image-wrapper {
+        width: 88vw;
+        height: 72vh;
+
+        border-radius: 12px;
+    }
+
+    .lightbox-arrow {
+        width: 45px;
+        height: 45px;
+
+        font-size: 16px;
+    }
+
+    .lightbox-prev {
+        left: 12px;
+    }
+
+    .lightbox-next {
+        right: 12px;
+    }
+
+    .close-lightbox {
+        top: 15px;
+        right: 15px;
+
+        width: 44px;
+        height: 44px;
+
+        font-size: 28px;
+    }
+
+}
+
+
+/* ===========================
+   SMALL PHONES
+=========================== */
+
+@media (max-width: 480px) {
+
+    .lightbox-image-wrapper {
+        width: 86vw;
+        height: 65vh;
+    }
+
+    .lightbox-arrow {
+        width: 40px;
+        height: 40px;
+
+        font-size: 14px;
+    }
+
+    .lightbox-prev {
+        left: 8px;
+    }
+
+    .lightbox-next {
+        right: 8px;
+    }
+
 }
 
 
@@ -940,31 +1208,83 @@ a {
 
 
 /* ===========================
-   WHATSAPP
+   WHATSAPP BUTTON
 =========================== */
 
-
 .whatsapp-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: fit-content;
-    margin: 40px auto 0;
-    padding: 15px 25px;
-    background: #25D366;
-    color: white;
-    border-radius: 50px;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 600;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+
+    width: auto !important;
+    min-width: 180px !important;
+    height: 52px !important;
+
+    margin: 40px auto 0 !important;
+    padding: 0 22px !important;
+
+    background: #25D366 !important;
+    color: #ffffff !important;
+
+    border-radius: 50px !important;
+    text-decoration: none !important;
+
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+
+    box-sizing: border-box !important;
+
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    transition: 0.3s ease;
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.whatsapp-button i {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 24px !important;
+    height: 24px !important;
+
+    font-size: 22px !important;
+    line-height: 1 !important;
+
+    color: #ffffff !important;
+}
+
+.whatsapp-button span {
+    display: inline-block !important;
+
+    white-space: nowrap !important;
+
+    color: #ffffff !important;
 }
 
 .whatsapp-button:hover {
     transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
 }
 
+/* Mobile */
+@media (max-width: 600px) {
+
+    .whatsapp-button {
+        min-width: 175px !important;
+        height: 50px !important;
+
+        margin-top: 30px !important;
+        padding: 0 20px !important;
+
+        font-size: 15px !important;
+    }
+
+    .whatsapp-button i {
+        font-size: 21px !important;
+    }
+}
 
 /* ===========================
    FOOTER
@@ -1319,4 +1639,526 @@ footer ul li a:hover {
 /* WhatsApp floating button */
 .whatsapp-button {
     display: flex;
+}
+/* ===========================
+   EMERGENCY CTA
+=========================== */
+
+.emergency-cta {
+    width: 100%;
+    padding: 70px 20px;
+    box-sizing: border-box;
+}
+
+.emergency-content {
+    max-width: 1150px;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    padding: 35px 40px;
+
+    background: #fff5f5;
+    border: 1px solid #ffd6d6;
+    border-radius: 20px;
+
+    box-sizing: border-box;
+}
+
+.emergency-icon {
+    flex-shrink: 0;
+
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffe1e1;
+    color: #dc3545;
+
+    border-radius: 50%;
+
+    font-size: 28px;
+}
+
+.emergency-text {
+    flex: 1;
+}
+
+.emergency-text span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #dc3545;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+.emergency-text h2 {
+    margin: 0 0 8px;
+
+    color: #222;
+
+    font-size: 28px;
+    font-weight: 700;
+
+    line-height: 1.25;
+}
+
+.emergency-text p {
+    margin: 0;
+
+    max-width: 650px;
+
+    color: #666;
+
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.emergency-actions {
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.emergency-actions a {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    min-width: 190px;
+    min-height: 48px;
+
+    padding: 0 20px;
+
+    border-radius: 10px;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    box-sizing: border-box;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+.emergency-call-btn {
+    background: #dc3545;
+    color: #ffffff;
+}
+
+.emergency-call-btn:hover {
+    background: #c82333;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 8px 18px rgba(220, 53, 69, 0.25);
+}
+
+.emergency-book-btn {
+    background: #ffffff;
+    color: #dc3545;
+
+    border: 1px solid #dc3545;
+}
+
+.emergency-book-btn:hover {
+    background: #dc3545;
+    color: #ffffff;
+
+    transform: translateY(-2px);
+}
+
+
+/* ===========================
+   EMERGENCY CTA - MOBILE
+=========================== */
+
+@media (max-width: 768px) {
+
+    .emergency-cta {
+        padding: 45px 15px;
+    }
+
+    .emergency-content {
+        flex-direction: column;
+
+        text-align: center;
+
+        padding: 30px 22px;
+
+        gap: 20px;
+    }
+
+    .emergency-icon {
+        width: 62px;
+        height: 62px;
+
+        font-size: 24px;
+    }
+
+    .emergency-text span {
+        font-size: 12px;
+    }
+
+    .emergency-text h2 {
+        font-size: 24px;
+    }
+
+    .emergency-text p {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .emergency-actions {
+        width: 100%;
+    }
+
+    .emergency-actions a {
+        width: 100%;
+
+        min-height: 50px;
+    }
+}
+
+
+/* ===========================
+   SMALL PHONES
+=========================== */
+
+@media (max-width: 480px) {
+
+    .emergency-cta {
+        padding: 35px 12px;
+    }
+
+    .emergency-content {
+        padding: 25px 18px;
+        border-radius: 16px;
+    }
+
+    .emergency-text h2 {
+        font-size: 21px;
+    }
+
+    .emergency-text p {
+        font-size: 13px;
+    }
+}
+/* ===========================
+   DOCTOR IMAGE FIX
+=========================== */
+
+.doctor-card img {
+    width: 100%;
+    height: 320px;
+
+    display: block;
+
+    object-fit: cover;
+    object-position: center center;
+}
+
+/* Michael Lee's photo */
+.doctor-card:nth-child(2) img {
+    object-position: center 20%;
+}
+
+/* ===========================
+   WHY CHOOSE US ICONS
+=========================== */
+
+.why-card .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 80px;
+    height: 80px;
+
+    margin: 0 auto 25px;
+
+    color: #0879ff;
+
+    font-size: 52px;
+}
+
+.why-card .icon i {
+    font-size: 52px;
+}
+/* ===========================
+   FAQ SECTION
+=========================== */
+
+.faq {
+    background: #ffffff;
+}
+
+.faq-container {
+    width: 100%;
+    max-width: 900px;
+
+    margin: 0 auto;
+}
+
+
+/* FAQ ITEM */
+
+.faq-item {
+    margin-bottom: 14px;
+
+    background: #ffffff;
+
+    border: 1px solid #e8eef5;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.04);
+
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.faq-item.active {
+    border-color: #d5e6ff;
+
+    box-shadow: 0 8px 24px rgba(13, 110, 253, 0.08);
+}
+
+
+/* QUESTION BUTTON */
+
+.faq-question {
+    width: 100%;
+
+    min-height: 68px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 20px 24px;
+
+    background: #ffffff;
+
+    border: none;
+
+    color: #222222;
+
+    text-align: left;
+
+    font-family: inherit;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    line-height: 1.4;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease;
+}
+
+.faq-question:hover {
+    background: #f8fbff;
+}
+
+.faq-question:focus-visible {
+    outline: 3px solid rgba(13, 110, 253, 0.25);
+
+    outline-offset: -3px;
+}
+
+
+/* PLUS ICON */
+
+.faq-question i {
+    flex-shrink: 0;
+
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #eef6ff;
+
+    color: #0d6efd;
+
+    font-size: 14px;
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease;
+}
+
+
+/* ACTIVE ICON */
+
+.faq-item.active .faq-question i {
+    transform: rotate(45deg);
+
+    background: #0d6efd;
+
+    color: #ffffff;
+}
+
+
+/* ANSWER */
+
+.faq-answer {
+    display: grid;
+
+    grid-template-rows: 0fr;
+
+    transition:
+        grid-template-rows 0.35s ease;
+}
+
+.faq-answer p {
+    min-height: 0;
+
+    overflow: hidden;
+
+    margin: 0;
+
+    padding: 0 24px;
+
+    color: #666666;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.25s ease,
+        padding 0.35s ease;
+}
+
+
+/* OPEN ANSWER */
+
+.faq-item.active .faq-answer {
+    grid-template-rows: 1fr;
+}
+
+.faq-item.active .faq-answer p {
+    padding: 0 24px 22px;
+
+    opacity: 1;
+}
+
+
+/* ===========================
+   FAQ MOBILE
+=========================== */
+
+@media (max-width: 768px) {
+
+    .faq-container {
+        max-width: 100%;
+    }
+
+    .faq-item {
+        margin-bottom: 12px;
+
+        border-radius: 10px;
+    }
+
+    .faq-question {
+        min-height: 64px;
+
+        padding: 18px 16px;
+
+        gap: 14px;
+
+        font-size: 15px;
+    }
+
+    .faq-question i {
+        width: 30px;
+        height: 30px;
+
+        font-size: 13px;
+    }
+
+    .faq-item.active .faq-answer p {
+        padding: 0 16px 20px;
+    }
+
+    .faq-answer p {
+        font-size: 14px;
+
+        line-height: 1.7;
+    }
+}
+
+
+/* ===========================
+   SMALL PHONES
+=========================== */
+
+@media (max-width: 480px) {
+
+    .faq-question {
+        min-height: 62px;
+
+        padding: 16px 14px;
+
+        font-size: 14px;
+
+        gap: 10px;
+    }
+
+    .faq-question span {
+        max-width: calc(100% - 42px);
+    }
+
+    .faq-question i {
+        width: 28px;
+        height: 28px;
+
+        font-size: 12px;
+    }
+
+    .faq-item.active .faq-answer p {
+        padding: 0 14px 18px;
+    }
+
+    .faq-answer p {
+        font-size: 13px;
+
+        line-height: 1.65;
+    }
 }

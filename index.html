@@ -185,7 +185,9 @@
 
         <div class="why-card">
 
-            <div class="icon">🦷</div>
+            <div class="icon">
+    <i class="fa-solid fa-user-doctor"></i>
+</div>
 
             <h3>Experienced Dentists</h3>
 
@@ -198,7 +200,9 @@
 
         <div class="why-card">
 
-            <div class="icon">🖥️</div>
+            <div class="icon">
+    <i class="fa-solid fa-microchip"></i>
+</div>
 
             <h3>Modern Technology</h3>
 
@@ -211,7 +215,9 @@
 
         <div class="why-card">
 
-            <div class="icon">😊</div>
+            <div class="icon">
+    <i class="fa-solid fa-face-smile"></i>
+</div>
 
             <h3>Patient Comfort</h3>
 
@@ -224,7 +230,9 @@
 
         <div class="why-card">
 
-            <div class="icon">⏰</div>
+            <div class="icon">
+    <i class="fa-solid fa-truck-medical"></i>
+</div>
 
             <h3>Emergency Care</h3>
 
@@ -335,6 +343,57 @@
 
 </section>
 
+<!-- ==========================
+     EMERGENCY CTA
+=========================== -->
+
+<section class="emergency-cta fade-in">
+
+    <div class="emergency-content">
+
+        <div class="emergency-icon">
+            <i class="fa-solid fa-truck-medical"></i>
+        </div>
+
+        <div class="emergency-text">
+
+            <span>NEED URGENT DENTAL CARE?</span>
+
+            <h2>
+                Dental Emergency? We're Here to Help.
+            </h2>
+
+            <p>
+                Experiencing severe tooth pain, a broken tooth, swelling,
+                or another dental emergency? Contact our team for urgent care.
+            </p>
+
+        </div>
+
+        <div class="emergency-actions">
+
+            <a
+                href="tel:+15551234567"
+                class="emergency-call-btn"
+            >
+                <i class="fa-solid fa-phone"></i>
+                Call Now
+            </a>
+
+            <a
+                href="#appointment"
+                class="emergency-book-btn"
+            >
+                <i class="fa-solid fa-calendar-check"></i>
+                Request Emergency Care
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
 
 
 <!-- ==========================
@@ -378,21 +437,7 @@
                     12+ years of experience in cosmetic and restorative dentistry.
                 </p>
 
-                <div class="doctor-social">
-
-                    <a href="#">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-
-                    <a href="#">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-
-                    <a href="#">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-
-                </div>
+                
 
             </div>
 
@@ -415,21 +460,7 @@
                     Specialized in implants, oral surgery and smile restoration.
                 </p>
 
-                <div class="doctor-social">
-
-                    <a href="#">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-
-                    <a href="#">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-
-                    <a href="#">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-
-                </div>
+               
 
             </div>
 
@@ -452,22 +483,7 @@
                     Helping patients achieve perfectly aligned smiles with modern braces.
                 </p>
 
-                <div class="doctor-social">
-
-                    <a href="#">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-
-                    <a href="#">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-
-                    <a href="#">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-
-                </div>
-
+                
             </div>
 
         </div>
@@ -699,22 +715,435 @@
 
 
 <!-- ==========================
-     LIGHTBOX
+     GALLERY LIGHTBOX
 =========================== -->
 
-<div id="lightbox" class="lightbox fade-in">
+<div class="lightbox" id="lightbox">
 
-    <span class="close-lightbox">
+    <button
+        class="lightbox-arrow lightbox-prev"
+        id="lightboxPrev"
+        type="button"
+        aria-label="Previous image">
+        <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+
+    <div class="lightbox-image-wrapper">
+
+        <img
+            id="lightbox-img"
+            src=""
+            alt="Gallery Image">
+
+    </div>
+
+
+    <button
+        class="lightbox-arrow lightbox-next"
+        id="lightboxNext"
+        type="button"
+        aria-label="Next image">
+        <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+
+    <button
+        class="close-lightbox"
+        type="button"
+        aria-label="Close gallery">
         &times;
-    </span>
-
-    <img
-        id="lightbox-img"
-        src=""
-        alt="">
+    </button>
 
 </div>
+<!-- ==========================
+     FAQ
+=========================== -->
 
+<section id="faq" class="faq section fade-in">
+
+    <div class="section-title">
+
+        <span>FAQ</span>
+
+        <h2>
+            Frequently Asked Questions
+        </h2>
+
+        <p>
+            Find answers to common questions about our dental care,
+            appointments, and clinic.
+        </p>
+
+    </div>
+
+
+    <div class="faq-container">
+
+
+        <!-- FAQ 1 -->
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                type="button"
+                aria-expanded="false">
+
+                <span>
+                    How do I book a dental appointment?
+                </span>
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+                     To book an appointment, choose your preferred service and
+        complete our online appointment form. Enter your details,
+        select your preferred date and time, and submit your request.
+        Our team will contact you to confirm your appointment..
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FAQ 2 -->
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                type="button"
+                aria-expanded="false">
+
+                <span>
+                    Do you accept dental emergencies?
+                </span>
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+                    Yes. If you are experiencing an urgent dental problem,
+                    contact our clinic as soon as possible so our team can
+                    advise you on the next appropriate step.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FAQ 3 -->
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                type="button"
+                aria-expanded="false">
+
+                <span>
+                    How long does a routine dental checkup take?
+                </span>
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+                    A routine dental checkup can vary depending on your
+                    individual needs. Your dentist will assess your oral
+                    health and explain any recommended treatments.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FAQ 4 -->
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                type="button"
+                aria-expanded="false">
+
+                <span>
+                    Are dental services suitable for children?
+                </span>
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+                    Dental care can be tailored to children according to
+                    their age and individual needs. Contact the clinic to
+                    learn which children's services are available.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FAQ 5 -->
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                type="button"
+                aria-expanded="false">
+
+                <span>
+                    Where is the clinic located and what are your opening hours?
+                </span>
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+                    Our clinic is located at 123 Main Street, New York, NY.
+                    We are open Monday through Saturday from 9:00 AM to 7:00 PM.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FAQ 6 -->
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                type="button"
+                aria-expanded="false">
+
+                <span>
+                    Can I change or cancel my appointment?
+                </span>
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+                    Yes. Please contact our clinic as early as possible if
+                    you need to change or cancel your appointment so our team
+                    can assist you.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FAQ 7 -->
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                type="button"
+                aria-expanded="false">
+
+                <span>
+                    What should I do if I have a broken or chipped tooth?
+                </span>
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+                    Contact a dental professional as soon as possible.
+                    Avoid putting unnecessary pressure on the affected area
+                    and follow the advice provided by your dental team.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FAQ 8 -->
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                type="button"
+                aria-expanded="false">
+
+                <span>
+                    How can I prepare for my first dental visit?
+                </span>
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+                    Bring any relevant dental or medical information,
+                    insurance details if applicable, and a list of questions
+                    you would like to discuss with your dentist.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FAQ 9 -->
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                type="button"
+                aria-expanded="false">
+
+                <span>
+                    Is professional teeth whitening safe?
+                </span>
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+                    Professional whitening can be suitable for many patients,
+                    but your dentist should first determine whether whitening
+                    is appropriate for your teeth and oral health.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FAQ 10 -->
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                type="button"
+                aria-expanded="false">
+
+                <span>
+                    How can I improve my oral hygiene at home?
+                </span>
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+                    Brush your teeth regularly with fluoride toothpaste,
+                    clean between your teeth, maintain a balanced diet,
+                    and visit your dentist regularly for professional advice.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FAQ 11 -->
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                type="button"
+                aria-expanded="false">
+
+                <span>
+                    What should I do if my gums bleed when brushing?
+                </span>
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+                    Bleeding gums can have several causes. If the problem
+                    continues, contact a dental professional for an
+                    appropriate examination and advice.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FAQ 12 -->
+
+        <div class="faq-item">
+
+            <button
+                class="faq-question"
+                type="button"
+                aria-expanded="false">
+
+                <span>
+                    Do you offer treatments for nervous or anxious patients?
+                </span>
+
+                <i class="fa-solid fa-plus"></i>
+
+            </button>
+
+            <div class="faq-answer">
+
+                <p>
+                    We aim to make every patient's visit as comfortable as
+                    possible. Let our team know about any concerns when
+                    booking so we can discuss suitable options with you.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
 
 
 <!-- ==========================
@@ -975,9 +1404,10 @@
     href="https://wa.me/15551234567"
     class="whatsapp-button"
     target="_blank"
+    rel="noopener noreferrer"
 >
     <i class="fab fa-whatsapp"></i>
-    WhatsApp Us
+    <span>WhatsApp Us</span>
 </a>
 
 </section>

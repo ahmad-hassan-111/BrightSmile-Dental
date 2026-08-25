@@ -213,47 +213,121 @@ if (counters.length > 0) {
 // =====================================================
 
 const galleryImages =
-    document.querySelectorAll(
-        ".gallery-img"
-    );
+    document.querySelectorAll(".gallery-img");
 
 const lightbox =
-    document.querySelector(
-        ".lightbox"
-    );
+    document.getElementById("lightbox");
 
 const lightboxImage =
-    document.getElementById(
-        "lightbox-img"
-    );
+    document.getElementById("lightbox-img");
 
 const closeLightbox =
-    document.querySelector(
-        ".close-lightbox"
-    );
+    document.querySelector(".close-lightbox");
+
+const lightboxPrev =
+    document.getElementById("lightboxPrev");
+
+const lightboxNext =
+    document.getElementById("lightboxNext");
 
 
-if (
-    galleryImages.length > 0 &&
-    lightbox &&
-    lightboxImage
+let currentGalleryIndex = 0;
+let galleryAnimationRunning = false;
+
+
+function updateLightboxImage(
+    index,
+    direction = "next",
+    animate = true
 ) {
 
-    galleryImages.forEach(image => {
+    if (!galleryImages.length || !lightboxImage) {
+        return;
+    }
+
+
+    currentGalleryIndex =
+        (index + galleryImages.length) %
+        galleryImages.length;
+
+
+    const selectedImage =
+        galleryImages[currentGalleryIndex];
+
+
+    if (animate) {
+
+        galleryAnimationRunning = true;
+
+        lightboxImage.classList.remove(
+            "slide-next",
+            "slide-prev"
+        );
+
+
+        // Force animation restart
+        void lightboxImage.offsetWidth;
+
+
+        lightboxImage.classList.add(
+            direction === "next"
+                ? "slide-next"
+                : "slide-prev"
+        );
+    }
+
+
+    lightboxImage.src =
+        selectedImage.src;
+
+    lightboxImage.alt =
+        selectedImage.alt;
+
+
+    if (animate) {
+
+        setTimeout(() => {
+
+            lightboxImage.classList.remove(
+                "slide-next",
+                "slide-prev"
+            );
+
+            galleryAnimationRunning = false;
+
+        }, 350);
+
+    }
+
+}
+
+
+/* ===========================
+   OPEN GALLERY
+=========================== */
+
+galleryImages.forEach(
+    (image, index) => {
 
         image.addEventListener(
             "click",
             () => {
 
-                lightboxImage.src =
-                    image.src;
+                currentGalleryIndex =
+                    index;
 
-                lightboxImage.alt =
-                    image.alt;
+
+                updateLightboxImage(
+                    currentGalleryIndex,
+                    "next",
+                    false
+                );
+
 
                 lightbox.classList.add(
                     "active"
                 );
+
 
                 document.body.style.overflow =
                     "hidden";
@@ -261,10 +335,95 @@ if (
             }
         );
 
-    });
+    }
+);
+
+
+/* ===========================
+   NEXT IMAGE
+=========================== */
+
+function showNextImage() {
+
+    if (
+        galleryAnimationRunning ||
+        !lightbox.classList.contains("active")
+    ) {
+        return;
+    }
+
+
+    updateLightboxImage(
+        currentGalleryIndex + 1,
+        "next",
+        true
+    );
 
 }
 
+
+/* ===========================
+   PREVIOUS IMAGE
+=========================== */
+
+function showPreviousImage() {
+
+    if (
+        galleryAnimationRunning ||
+        !lightbox.classList.contains("active")
+    ) {
+        return;
+    }
+
+
+    updateLightboxImage(
+        currentGalleryIndex - 1,
+        "prev",
+        true
+    );
+
+}
+
+
+/* ===========================
+   ARROW BUTTONS
+=========================== */
+
+if (lightboxNext) {
+
+    lightboxNext.addEventListener(
+        "click",
+        (event) => {
+
+            event.stopPropagation();
+
+            showNextImage();
+
+        }
+    );
+
+}
+
+
+if (lightboxPrev) {
+
+    lightboxPrev.addEventListener(
+        "click",
+        (event) => {
+
+            event.stopPropagation();
+
+            showPreviousImage();
+
+        }
+    );
+
+}
+
+
+/* ===========================
+   CLOSE LIGHTBOX
+=========================== */
 
 function closeGalleryLightbox() {
 
@@ -288,17 +447,27 @@ if (closeLightbox) {
 
     closeLightbox.addEventListener(
         "click",
-        closeGalleryLightbox
+        (event) => {
+
+            event.stopPropagation();
+
+            closeGalleryLightbox();
+
+        }
     );
 
 }
 
 
+/* ===========================
+   CLICK OUTSIDE IMAGE
+=========================== */
+
 if (lightbox) {
 
     lightbox.addEventListener(
         "click",
-        event => {
+        (event) => {
 
             if (
                 event.target === lightbox
@@ -314,25 +483,46 @@ if (lightbox) {
 }
 
 
+/* ===========================
+   KEYBOARD CONTROLS
+=========================== */
+
 document.addEventListener(
     "keydown",
-    event => {
+    (event) => {
 
         if (
-            event.key === "Escape" &&
-            lightbox &&
-            lightbox.classList.contains(
+            !lightbox ||
+            !lightbox.classList.contains(
                 "active"
             )
         ) {
+            return;
+        }
+
+
+        if (event.key === "Escape") {
 
             closeGalleryLightbox();
 
         }
 
+
+        if (event.key === "ArrowRight") {
+
+            showNextImage();
+
+        }
+
+
+        if (event.key === "ArrowLeft") {
+
+            showPreviousImage();
+
+        }
+
     }
 );
-
 
 // =====================================================
 // APPOINTMENT FORM
@@ -634,3 +824,55 @@ if (whatsappButton) {
 // =====================================================
 // END OF MAIN WEBSITE JAVASCRIPT
 // =====================================================
+
+// =====================================================
+// FAQ ACCORDION
+// =====================================================
+
+const faqItems =
+    document.querySelectorAll(".faq-item");
+
+
+faqItems.forEach((item) => {
+
+    const question =
+        item.querySelector(".faq-question");
+
+
+    question.addEventListener("click", () => {
+
+        const isOpen =
+            item.classList.contains("active");
+
+
+        // Close all other FAQ items
+        faqItems.forEach((otherItem) => {
+
+            otherItem.classList.remove("active");
+
+            const otherQuestion =
+                otherItem.querySelector(".faq-question");
+
+            otherQuestion.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        });
+
+
+        // Open the clicked item
+        if (!isOpen) {
+
+            item.classList.add("active");
+
+            question.setAttribute(
+                "aria-expanded",
+                "true"
+            );
+
+        }
+
+    });
+
+});
