@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
 
 <link
@@ -36,9 +36,17 @@
 
 <nav class="navbar">
 
-    <div class="logo">
-        🦷 BrightSmile
-    </div>
+    <a href="index.html" class="brand-logo" aria-label="BrightSmile - Home">
+
+        <span class="brand-symbol">
+            <i class="fa-solid fa-tooth"></i>
+        </span>
+
+        <span class="brand-name">BrightSmile</span>
+
+    </a>
+
+</div>
 
 
     <div class="menu-toggle" id="menu-toggle">
@@ -84,54 +92,53 @@
 
 
 <!-- ==========================
-     HERO
+     PREMIUM HERO
 =========================== -->
 
-<section id="home" class="hero">
+<section id="home" class="hero premium-hero">
 
+    <!-- LEFT CONTENT -->
     <div class="hero-content">
 
-        <span class="hero-tag">
-            ⭐ Trusted by 5,000+ Happy Patients
-        </span>
-
+        <div class="hero-eyebrow">
+            <span></span>
+            EST. 2004
+        </div>
 
         <h1>
-            Creating Beautiful,
-            Healthy Smiles
-            For Every Generation.
+            Creating beautiful,
+            <span>healthy smiles.</span>
         </h1>
-
 
         <p>
             Experience world-class dental care with cutting-edge technology,
             compassionate professionals, and personalized treatment plans
-            designed for your comfort.
+            designed around your comfort.
         </p>
-
 
         <div class="hero-buttons">
 
             <a href="#appointment" class="primary-btn">
                 Book Appointment
+                <span>→</span>
             </a>
 
             <a href="#services" class="secondary-btn">
                 Explore Services
+                <span>→</span>
             </a>
 
         </div>
 
-
         <div class="hero-info">
 
             <div>
-                <h3>20+</h3>
+                <h3>12+</h3>
                 <span>Years Experience</span>
             </div>
 
             <div>
-                <h3>15</h3>
+                <h3>10+</h3>
                 <span>Expert Dentists</span>
             </div>
 
@@ -145,13 +152,20 @@
     </div>
 
 
+    <!-- RIGHT IMAGE -->
     <div class="hero-image">
 
         <img
-            src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800"
-            alt="Dentist">
+            src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1400"
+            alt="Professional dentist providing patient care"
+        >
 
-    </div>
+        <div class="hero-image-overlay"></div>
+
+        
+
+
+   
 
 </section>
 
@@ -429,7 +443,7 @@
 
             <div class="doctor-info">
 
-                <h3>Dr. Sarah Johnson</h3>
+                <h3>Dr. Michael lee</h3>
 
                 <span>Cosmetic Dentist</span>
 
@@ -452,7 +466,7 @@
 
             <div class="doctor-info">
 
-                <h3>Dr. Michael Lee</h3>
+                <h3>Dr. Sarah Johnson</h3>
 
                 <span>Dental Surgeon</span>
 
@@ -521,7 +535,7 @@
 
             <h2
                 class="counter"
-                data-target="20"
+                data-target="12"
                 data-suffix="+">
             </h2>
 
@@ -536,7 +550,7 @@
 
             <h2
                 class="counter"
-                data-target="15"
+                data-target="10"
                 data-suffix="+">
             </h2>
 
@@ -1147,140 +1161,85 @@
 
 
 <!-- ==========================
-     APPOINTMENT
+     REDESIGNED APPOINTMENT SECTION
 =========================== -->
-
-<section id="appointment" class="appointment section fade-in">
-
-    <div class="section-title">
-
-        <span>
-            BOOK AN APPOINTMENT
-        </span>
-
-        <h2>
-            Schedule Your Visit Today
-        </h2>
-
-        <p>
-            Fill out the form below and our team will contact you
-            to confirm your appointment.
-        </p>
-
+<section class="appointment-section-wrapper" id="appointment">
+    
+    <!-- Video Hero Header inside the single page -->
+    <div class="appointment-hero-banner">
+        <video autoplay loop muted playsinline poster="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-dentist-examining-a-patients-teeth-41512-large.mp4" type="video/mp4">
+        </video>
+        <div class="appointment-hero-overlay">
+            <h2>Book Your Dental Visit</h2>
+            <p>Select your desired service, date, and time. Our team will contact you to confirm your slot!</p>
+        </div>
     </div>
 
+    <!-- Redesigned Appointment Card & Form -->
+    <div class="appointment-container fade-in">
+        <form id="appointmentForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" placeholder="John Doe" required>
+                </div>
 
-    <div class="appointment-container">
+                <div class="form-group">
+                    <label>Phone Number *</label>
+                    <input type="tel" placeholder="+1 (555) 000-0000" required>
+                </div>
 
-       <form id="appointmentForm">
+                <div class="form-group">
+                    <label>Email Address *</label>
+                    <input type="email" placeholder="example@mail.com" required>
+                </div>
 
-            <input
-                type="text"
-                placeholder="Full Name"
-                required>
+                <div class="form-group">
+                    <label>Select Service *</label>
+                    <select required>
+                        <option value="">Choose a Service</option>
+                        <option>General Checkup</option>
+                        <option>Teeth Cleaning</option>
+                        <option>Teeth Whitening</option>
+                        <option>Dental Implants</option>
+                        <option>Root Canal Treatment</option>
+                        <option>Emergency Care</option>
+                    </select>
+                </div>
 
+                <div class="form-group">
+                    <label>Preferred Date *</label>
+                    <input type="date" required>
+                </div>
 
-            <input
-                type="tel"
-                placeholder="Phone Number"
-                required>
+                <div class="form-group">
+                    <label>Preferred Time *</label>
+                    <input type="time" required>
+                </div>
 
+                <div class="form-group full-width">
+                    <label>Additional Notes / Symptoms</label>
+                    <textarea placeholder="Tell us about any specific dental concerns..." rows="3"></textarea>
+                </div>
 
-            <input
-                type="email"
-                placeholder="Email Address"
-                required>
-
-
-            <input
-                type="date"
-                required>
-
-
-            <input
-                type="time"
-                required>
-
-
-            <select required>
-
-                <option value="">
-                    Select a Service
-                </option>
-
-                <option>
-                    General Checkup
-                </option>
-
-                <option>
-                    Teeth Cleaning
-                </option>
-
-                <option>
-                    Teeth Whitening
-                </option>
-
-                <option>
-                    Dental Implants
-                </option>
-
-                <option>
-                    Root Canal
-                </option>
-
-                <option>
-                    Emergency Care
-                </option>
-
-            </select>
-
-
-            <textarea
-                placeholder="Additional Message"
-                rows="5">
-            </textarea>
-
-
-            <button type="submit">
-                Book Appointment
-            </button>
-
+                <div class="form-group full-width">
+                    <button type="submit" class="submit-appointment-btn">
+                        <i class="fa-solid fa-calendar-check"></i> Confirm Appointment Request
+                    </button>
+                </div>
+            </div>
         </form>
 
-
-        <div
-            id="successMessage"
-            class="success-message">
-
+        <div id="successMessage" class="success-message">
             <div>
-
-                <strong>
-                    ✅ Appointment Request Received!
-                </strong>
-
-                <p>
-                    Thank you! Our team will contact you shortly
-                    to confirm your appointment.
-                </p>
-
+                <strong>✅ Appointment Request Received!</strong>
+                <p>Thank you! Our clinic team will contact you shortly to confirm your booking.</p>
             </div>
-
-
-            <button
-                type="button"
-                id="closeSuccess">
-
-                ✕
-
-            </button>
-
+            <button type="button" id="closeSuccess">✕</button>
         </div>
-
     </div>
-
 </section>
-
-
 
 <!-- ==========================
      CONTACT
@@ -1439,7 +1398,7 @@
         <div class="footer-about">
 
             <h2>
-                🦷 BrightSmile
+                BrightSmile
             </h2>
 
             <p>

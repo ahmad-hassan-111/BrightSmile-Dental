@@ -1,5 +1,6 @@
 // =====================================================
 // BRIGHTSMILE MAIN WEBSITE JAVASCRIPT
+// PREMIUM MOTION + EXISTING FUNCTIONALITY
 // =====================================================
 
 
@@ -33,40 +34,35 @@ if (menuToggle && navLinks) {
 
 
 // =====================================================
-// FADE-IN ANIMATION
+// PREMIUM SCROLL REVEAL
 // =====================================================
 
-
-   const fadeElements =
-document.querySelectorAll(
-".hero, .hero-content, .section-title, .why-card, .service-card, .doctor-card, .testimonial-card, .stat-box, .gallery-img, .contact-card, .appointment-container"
+const fadeElements = document.querySelectorAll(
+    ".hero, .hero-content, .section-title, .why-card, .service-card, .doctor-card, .testimonial-card, .stat-box, .gallery-img, .contact-card, .appointment-container"
 );
 
 if (fadeElements.length > 0) {
 
-    const fadeObserver =
-        new IntersectionObserver(
-            (entries, observer) => {
+    const fadeObserver = new IntersectionObserver(
+        (entries, observer) => {
 
-                entries.forEach(entry => {
+            entries.forEach(entry => {
 
-                    if (entry.isIntersecting) {
+                if (entry.isIntersecting) {
 
-                        entry.target.classList.add("visible");
+                    entry.target.classList.add("visible");
 
-                        observer.unobserve(
-                            entry.target
-                        );
+                    observer.unobserve(entry.target);
 
-                    }
+                }
 
-                });
+            });
 
-            },
-            {
-                threshold: 0.15
-            }
-        );
+        },
+        {
+            threshold: 0.15
+        }
+    );
 
 
     fadeElements.forEach(element => {
@@ -82,16 +78,14 @@ if (fadeElements.length > 0) {
 // NUMBER COUNTER
 // =====================================================
 
-const counters =
-    document.querySelectorAll(".counter");
+const counters = document.querySelectorAll(".counter");
 
 
 function startCounter(counter) {
 
-    const target =
-        Number(
-            counter.dataset.target
-        );
+    const target = Number(
+        counter.dataset.target
+    );
 
 
     const suffix =
@@ -110,8 +104,7 @@ function startCounter(counter) {
 
     let current = 0;
 
-
-   const duration = 1200;
+    const duration = 1200;
 
     const startTime =
         performance.now();
@@ -241,7 +234,10 @@ function updateLightboxImage(
     animate = true
 ) {
 
-    if (!galleryImages.length || !lightboxImage) {
+    if (
+        !galleryImages.length ||
+        !lightboxImage
+    ) {
         return;
     }
 
@@ -259,13 +255,13 @@ function updateLightboxImage(
 
         galleryAnimationRunning = true;
 
+
         lightboxImage.classList.remove(
             "slide-next",
             "slide-prev"
         );
 
 
-        // Force animation restart
         void lightboxImage.offsetWidth;
 
 
@@ -274,11 +270,13 @@ function updateLightboxImage(
                 ? "slide-next"
                 : "slide-prev"
         );
+
     }
 
 
     lightboxImage.src =
         selectedImage.src;
+
 
     lightboxImage.alt =
         selectedImage.alt;
@@ -293,7 +291,9 @@ function updateLightboxImage(
                 "slide-prev"
             );
 
-            galleryAnimationRunning = false;
+
+            galleryAnimationRunning =
+                false;
 
         }, 350);
 
@@ -302,9 +302,9 @@ function updateLightboxImage(
 }
 
 
-/* ===========================
-   OPEN GALLERY
-=========================== */
+// =====================================================
+// OPEN GALLERY
+// =====================================================
 
 galleryImages.forEach(
     (image, index) => {
@@ -324,9 +324,13 @@ galleryImages.forEach(
                 );
 
 
-                lightbox.classList.add(
-                    "active"
-                );
+                if (lightbox) {
+
+                    lightbox.classList.add(
+                        "active"
+                    );
+
+                }
 
 
                 document.body.style.overflow =
@@ -339,13 +343,14 @@ galleryImages.forEach(
 );
 
 
-/* ===========================
-   NEXT IMAGE
-=========================== */
+// =====================================================
+// NEXT IMAGE
+// =====================================================
 
 function showNextImage() {
 
     if (
+        !lightbox ||
         galleryAnimationRunning ||
         !lightbox.classList.contains("active")
     ) {
@@ -362,13 +367,14 @@ function showNextImage() {
 }
 
 
-/* ===========================
-   PREVIOUS IMAGE
-=========================== */
+// =====================================================
+// PREVIOUS IMAGE
+// =====================================================
 
 function showPreviousImage() {
 
     if (
+        !lightbox ||
         galleryAnimationRunning ||
         !lightbox.classList.contains("active")
     ) {
@@ -385,9 +391,9 @@ function showPreviousImage() {
 }
 
 
-/* ===========================
-   ARROW BUTTONS
-=========================== */
+// =====================================================
+// GALLERY ARROWS
+// =====================================================
 
 if (lightboxNext) {
 
@@ -421,9 +427,9 @@ if (lightboxPrev) {
 }
 
 
-/* ===========================
-   CLOSE LIGHTBOX
-=========================== */
+// =====================================================
+// CLOSE LIGHTBOX
+// =====================================================
 
 function closeGalleryLightbox() {
 
@@ -459,9 +465,9 @@ if (closeLightbox) {
 }
 
 
-/* ===========================
-   CLICK OUTSIDE IMAGE
-=========================== */
+// =====================================================
+// CLICK OUTSIDE LIGHTBOX
+// =====================================================
 
 if (lightbox) {
 
@@ -483,9 +489,9 @@ if (lightbox) {
 }
 
 
-/* ===========================
-   KEYBOARD CONTROLS
-=========================== */
+// =====================================================
+// KEYBOARD CONTROLS
+// =====================================================
 
 document.addEventListener(
     "keydown",
@@ -524,6 +530,7 @@ document.addEventListener(
     }
 );
 
+
 // =====================================================
 // APPOINTMENT FORM
 // =====================================================
@@ -533,10 +540,12 @@ const appointmentForm =
         "appointmentForm"
     );
 
+
 const successMessage =
     document.getElementById(
         "successMessage"
     );
+
 
 const closeSuccess =
     document.getElementById(
@@ -544,16 +553,15 @@ const closeSuccess =
     );
 
 
-const API_URL = "https://bright-smile-dental-smoky.vercel.app/api";
+const API_URL =
+    "https://bright-smile-dental-smoky.vercel.app/api";
+
 
 if (appointmentForm) {
 
     appointmentForm.addEventListener(
         "submit",
         async event => {
-
-            // VERY IMPORTANT:
-            // Prevent browser from refreshing the page.
 
             event.preventDefault();
 
@@ -563,10 +571,12 @@ if (appointmentForm) {
                     "input"
                 );
 
+
             const select =
                 appointmentForm.querySelector(
                     "select"
                 );
+
 
             const textarea =
                 appointmentForm.querySelector(
@@ -577,20 +587,26 @@ if (appointmentForm) {
             const name =
                 inputs[0]?.value.trim() || "";
 
+
             const phone =
                 inputs[1]?.value.trim() || "";
+
 
             const email =
                 inputs[2]?.value.trim() || "";
 
+
             const date =
                 inputs[3]?.value || "";
+
 
             const time =
                 inputs[4]?.value || "";
 
+
             const service =
                 select?.value || "";
+
 
             const message =
                 textarea?.value.trim() || "";
@@ -606,6 +622,7 @@ if (appointmentForm) {
 
                 submitButton.disabled =
                     true;
+
 
                 submitButton.textContent =
                     "Sending...";
@@ -662,12 +679,8 @@ if (appointmentForm) {
                 }
 
 
-                // Clear the form
-
                 appointmentForm.reset();
 
-
-                // Show success message
 
                 if (successMessage) {
 
@@ -697,6 +710,7 @@ if (appointmentForm) {
 
                     submitButton.disabled =
                         false;
+
 
                     submitButton.textContent =
                         "Book Appointment";
@@ -767,6 +781,9 @@ if (backToTop) {
 
             }
 
+        },
+        {
+            passive: true
         }
     );
 
@@ -822,57 +839,352 @@ if (whatsappButton) {
 
 
 // =====================================================
-// END OF MAIN WEBSITE JAVASCRIPT
-// =====================================================
-
-// =====================================================
 // FAQ ACCORDION
 // =====================================================
 
 const faqItems =
-    document.querySelectorAll(".faq-item");
+    document.querySelectorAll(
+        ".faq-item"
+    );
 
 
 faqItems.forEach((item) => {
 
     const question =
-        item.querySelector(".faq-question");
+        item.querySelector(
+            ".faq-question"
+        );
 
 
-    question.addEventListener("click", () => {
+    if (!question) {
+        return;
+    }
 
-        const isOpen =
-            item.classList.contains("active");
+
+    question.addEventListener(
+        "click",
+        () => {
+
+            const isOpen =
+                item.classList.contains(
+                    "active"
+                );
 
 
-        // Close all other FAQ items
-        faqItems.forEach((otherItem) => {
+            faqItems.forEach(
+                otherItem => {
 
-            otherItem.classList.remove("active");
+                    otherItem.classList.remove(
+                        "active"
+                    );
 
-            const otherQuestion =
-                otherItem.querySelector(".faq-question");
 
-            otherQuestion.setAttribute(
-                "aria-expanded",
-                "false"
+                    const otherQuestion =
+                        otherItem.querySelector(
+                            ".faq-question"
+                        );
+
+
+                    if (otherQuestion) {
+
+                        otherQuestion.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+
+                    }
+
+                }
             );
 
-        });
+
+            if (!isOpen) {
+
+                item.classList.add(
+                    "active"
+                );
 
 
-        // Open the clicked item
-        if (!isOpen) {
+                question.setAttribute(
+                    "aria-expanded",
+                    "true"
+                );
 
-            item.classList.add("active");
+            }
 
-            question.setAttribute(
-                "aria-expanded",
-                "true"
+        }
+    );
+
+});
+
+
+// =====================================================
+// PREMIUM MOTION LAYER
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        const prefersReducedMotion =
+            window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            ).matches;
+
+
+        // ---------------------------------------------
+        // NAVBAR SCROLL EFFECT
+        // ---------------------------------------------
+
+        const navbar =
+            document.querySelector(
+                ".navbar"
+            );
+
+
+        if (navbar) {
+
+            const updateNavbar =
+                () => {
+
+                    navbar.classList.toggle(
+                        "scrolled",
+                        window.scrollY > 24
+                    );
+
+                };
+
+
+            updateNavbar();
+
+
+            window.addEventListener(
+                "scroll",
+                updateNavbar,
+                {
+                    passive: true
+                }
             );
 
         }
 
-    });
 
-});
+        // ---------------------------------------------
+        // HERO ENTRANCE ANIMATION
+        // ---------------------------------------------
+
+        if (!prefersReducedMotion) {
+
+            const heroParts =
+                document.querySelectorAll(
+                    ".hero-tag, .hero-content h1, .hero-content > p, .hero-buttons, .hero-info, .hero-image"
+                );
+
+
+            heroParts.forEach(
+                (element, index) => {
+
+                    element.style.opacity =
+                        "0";
+
+
+                    element.style.transform =
+                        "translateY(22px)";
+
+
+                    element.style.transition =
+                        `
+                        opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 90}ms,
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 90}ms
+                        `;
+
+                }
+            );
+
+
+            requestAnimationFrame(
+                () => {
+
+                    requestAnimationFrame(
+                        () => {
+
+                            heroParts.forEach(
+                                element => {
+
+                                    element.style.opacity =
+                                        "1";
+
+
+                                    element.style.transform =
+                                        "translateY(0)";
+
+                                }
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+        }
+
+
+        // ---------------------------------------------
+        // STAGGER CARD ANIMATIONS
+        // ---------------------------------------------
+
+        const staggerGroups = [
+
+            ".why-card",
+
+            ".service-card",
+
+            ".doctor-card",
+
+            ".testimonial-card",
+
+            ".gallery-img",
+
+            ".contact-card",
+
+            ".stat-box"
+
+        ];
+
+
+        staggerGroups.forEach(
+            selector => {
+
+                document
+                    .querySelectorAll(
+                        selector
+                    )
+                    .forEach(
+                        (element, index) => {
+
+                            element.style.setProperty(
+                                "--bs-delay",
+                                `${Math.min(
+                                    index * 75,
+                                    300
+                                )}ms`
+                            );
+
+                        }
+                    );
+
+            }
+        );
+
+
+        
+
+
+        
+
+        // ---------------------------------------------
+        // IMAGE HOVER MICRO INTERACTION
+        // ---------------------------------------------
+
+        if (!prefersReducedMotion) {
+
+            document
+                .querySelectorAll(
+                    ".gallery-img"
+                )
+                .forEach(
+                    image => {
+
+                        image.addEventListener(
+                            "mouseenter",
+                            () => {
+
+                                image.style.willChange =
+                                    "transform";
+
+                            }
+                        );
+
+
+                        image.addEventListener(
+                            "mouseleave",
+                            () => {
+
+                                image.style.willChange =
+                                    "auto";
+
+                            }
+                        );
+
+                    }
+                );
+
+        }
+
+
+        // ---------------------------------------------
+        // SMOOTH ANCHOR SCROLL
+        // ---------------------------------------------
+
+        document
+            .querySelectorAll(
+                'a[href^="#"]'
+            )
+            .forEach(
+                link => {
+
+                    link.addEventListener(
+                        "click",
+                        event => {
+
+                            const targetId =
+                                link.getAttribute(
+                                    "href"
+                                );
+
+
+                            if (
+                                !targetId ||
+                                targetId === "#"
+                            ) {
+                                return;
+                            }
+
+
+                            const target =
+                                document.querySelector(
+                                    targetId
+                                );
+
+
+                            if (!target) {
+                                return;
+                            }
+
+
+                            event.preventDefault();
+
+
+                            target.scrollIntoView({
+                                behavior:
+                                    prefersReducedMotion
+                                        ? "auto"
+                                        : "smooth",
+                                block:
+                                    "start"
+                            });
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+);
+
+
+// =====================================================
+// END OF BRIGHTSMILE JAVASCRIPT
+// =====================================================

@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
 
+    <!-- =========================
+         ADMIN LOGIN PROTECTION
+    ========================== -->
     <script>
         if (
             sessionStorage.getItem("brightSmileAdminLoggedIn") !== "true"
@@ -12,7 +14,6 @@
         }
     </script>
 
-
     <meta charset="UTF-8">
 
     <meta
@@ -20,17 +21,13 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-
     <title>BrightSmile Admin Dashboard</title>
 
 
-    <!-- Google Font -->
-
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-
+    <!-- =========================
+         FONTS
+    ========================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         rel="preconnect"
         href="https://fonts.gstatic.com"
@@ -38,730 +35,27 @@
     >
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
         rel="stylesheet"
     >
 
 
-    <!-- Font Awesome -->
-
+    <!-- =========================
+         FONT AWESOME
+    ========================== -->
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     >
 
 
-<style>
-
-
-/* =========================
-   RESET
-========================= */
-
-* {
-
-    margin: 0;
-
-    padding: 0;
-
-    box-sizing: border-box;
-
-}
-
-
-body {
-
-    font-family: 'Poppins', sans-serif;
-
-    background: #f5f8fc;
-
-    color: #222;
-
-}
-
-
-/* =========================
-   HEADER
-========================= */
-
-header {
-
-    background: white;
-
-    padding: 20px 5%;
-
-    box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-}
-
-
-.logo {
-
-    font-size: 25px;
-
-    font-weight: 700;
-
-    color: #0d6efd;
-
-}
-
-
-.header-buttons {
-
-    display: flex;
-
-    gap: 10px;
-
-    align-items: center;
-
-}
-
-
-.back-btn {
-
-    text-decoration: none;
-
-    background: #0d6efd;
-
-    color: white;
-
-    padding: 10px 20px;
-
-    border-radius: 30px;
-
-    font-weight: 600;
-
-    transition: .3s;
-
-}
-
-
-.back-btn:hover {
-
-    background: #084fc7;
-
-}
-
-
-.logout-btn {
-
-    border: none;
-
-    background: #dc3545;
-
-    color: white;
-
-    padding: 10px 20px;
-
-    border-radius: 30px;
-
-    font-weight: 600;
-
-    font-family: inherit;
-
-    cursor: pointer;
-
-    transition: .3s;
-
-}
-
-
-.logout-btn:hover {
-
-    background: #b02a37;
-
-}
-
-
-/* =========================
-   DASHBOARD
-========================= */
-
-.dashboard {
-
-    width: 90%;
-
-    max-width: 1200px;
-
-    margin: 50px auto;
-
-}
-
-
-.dashboard-title {
-
-    margin-bottom: 30px;
-
-}
-
-
-.dashboard-title h1 {
-
-    color: #0b2545;
-
-    margin-bottom: 8px;
-
-}
-
-
-.dashboard-title p {
-
-    color: #666;
-
-}
-
-
-/* =========================
-   STATISTICS
-========================= */
-
-.stats {
-
-    display: grid;
-
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 25px;
-
-    margin-bottom: 35px;
-
-}
-
-
-.stat-card {
-
-    background: white;
-
-    padding: 25px;
-
-    border-radius: 18px;
-
-    box-shadow: 0 8px 25px rgba(0, 0, 0, .07);
-
-}
-
-
-.stat-card i {
-
-    font-size: 25px;
-
-    color: #0d6efd;
-
-    margin-bottom: 15px;
-
-}
-
-
-.stat-card h2 {
-
-    font-size: 32px;
-
-    color: #0b2545;
-
-}
-
-
-.stat-card p {
-
-    color: #666;
-
-}
-
-
-/* =========================
-   APPOINTMENTS
-========================= */
-
-.appointments {
-
-    background: white;
-
-    padding: 30px;
-
-    border-radius: 20px;
-
-    box-shadow: 0 8px 25px rgba(0, 0, 0, .07);
-
-}
-
-
-.appointments-header {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    gap: 20px;
-
-    margin-bottom: 25px;
-
-}
-
-
-.appointments-header h2 {
-
-    color: #0b2545;
-
-}
-
-
-/* =========================
-   FILTERS
-========================= */
-
-.appointment-filters {
-
-    display: flex;
-
-    gap: 8px;
-
-    flex-wrap: wrap;
-
-    margin-top: 15px;
-
-}
-
-
-.appointment-filters button {
-
-    border: none;
-
-    background: #eef5ff;
-
-    color: #0d6efd;
-
-    padding: 8px 15px;
-
-    border-radius: 20px;
-
-    cursor: pointer;
-
-    font-family: inherit;
-
-    font-weight: 600;
-
-    transition: .3s;
-
-}
-
-
-.appointment-filters button:hover,
-.appointment-filters button.active {
-
-    background: #0d6efd;
-
-    color: white;
-
-}
-
-
-/* =========================
-   CLEAR BUTTON
-========================= */
-
-.clear-btn {
-
-    border: none;
-
-    background: #dc3545;
-
-    color: white;
-
-    padding: 10px 18px;
-
-    border-radius: 25px;
-
-    cursor: pointer;
-
-    font-family: inherit;
-
-    font-weight: 600;
-
-    white-space: nowrap;
-
-    transition: .3s;
-
-}
-
-
-.clear-btn:hover {
-
-    background: #b02a37;
-
-}
-
-
-/* =========================
-   TABLE
-========================= */
-
-.table-wrapper {
-
-    overflow-x: auto;
-
-}
-
-
-table {
-
-    width: 100%;
-
-    border-collapse: collapse;
-
-    min-width: 1000px;
-
-}
-
-
-th {
-
-    background: #f1f5fb;
-
-    color: #0b2545;
-
-    padding: 15px;
-
-    text-align: left;
-
-    font-size: 14px;
-
-}
-
-
-td {
-
-    padding: 15px;
-
-    border-bottom: 1px solid #eee;
-
-    color: #555;
-
-    font-size: 14px;
-
-}
-
-
-tr:hover {
-
-    background: #fafcff;
-
-}
-
-
-/* =========================
-   STATUS
-========================= */
-
-.status-select {
-
-    border: none;
-
-    padding: 7px 12px;
-
-    border-radius: 20px;
-
-    font-family: inherit;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    outline: none;
-
-}
-
-
-.status-select:disabled {
-
-    opacity: .6;
-
-    cursor: wait;
-
-}
-
-
-.status-pending {
-
-    background: #fff3cd;
-
-    color: #856404;
-
-}
-
-
-.status-confirmed {
-
-    background: #d1e7dd;
-
-    color: #0f5132;
-
-}
-
-
-.status-completed {
-
-    background: #cfe2ff;
-
-    color: #084298;
-
-}
-
-
-/* =========================
-   DELETE BUTTON
-========================= */
-
-.delete-btn {
-
-    border: none;
-
-    background: #ffe5e8;
-
-    color: #dc3545;
-
-    width: 38px;
-
-    height: 38px;
-
-    border-radius: 50%;
-
-    cursor: pointer;
-
-    transition: .3s;
-
-}
-
-
-.delete-btn:hover {
-
-    background: #dc3545;
-
-    color: white;
-
-}
-
-
-/* =========================
-   EMPTY STATE
-========================= */
-
-.empty {
-
-    text-align: center;
-
-    padding: 60px 20px;
-
-    color: #888;
-
-}
-
-
-.empty i {
-
-    font-size: 50px;
-
-    color: #cbd5e1;
-
-    margin-bottom: 15px;
-
-}
-
-
-.empty h3 {
-
-    color: #555;
-
-    margin-bottom: 8px;
-
-}
-
-
-/* =========================
-   LOADING
-========================= */
-
-.loading {
-
-    text-align: center;
-
-    padding: 60px 20px;
-
-    color: #666;
-
-}
-
-
-.loading i {
-
-    font-size: 35px;
-
-    margin-bottom: 15px;
-
-}
-
-
-/* =========================
-   ERROR
-========================= */
-
-.error-message {
-
-    background: #ffe5e8;
-
-    color: #842029;
-
-    padding: 15px 20px;
-
-    border-radius: 12px;
-
-    margin-bottom: 20px;
-
-    display: none;
-
-}
-
-
-/* =========================
-   SUCCESS MESSAGE
-========================= */
-
-.success-message {
-
-    position: fixed;
-
-    top: 25px;
-
-    right: 25px;
-
-    background: #198754;
-
-    color: white;
-
-    padding: 15px 22px;
-
-    border-radius: 12px;
-
-    box-shadow: 0 8px 25px rgba(0,0,0,.15);
-
-    display: none;
-
-    z-index: 9999;
-
-    font-weight: 600;
-
-}
-
-
-.success-message.show {
-
-    display: block;
-
-}
-
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 768px) {
-
-
-    header {
-
-        padding: 18px 4%;
-
-        flex-direction: column;
-
-        gap: 15px;
-
-        align-items: flex-start;
-
-    }
-
-
-    .header-buttons {
-
-        width: 100%;
-
-        flex-wrap: wrap;
-
-    }
-
-
-    .logo {
-
-        font-size: 20px;
-
-    }
-
-
-    .back-btn,
-    .logout-btn {
-
-        padding: 9px 14px;
-
-        font-size: 13px;
-
-    }
-
-
-    .dashboard {
-
-        width: 94%;
-
-        margin: 35px auto;
-
-    }
-
-
-    .dashboard-title h1 {
-
-        font-size: 28px;
-
-    }
-
-
-    .stats {
-
-        grid-template-columns: 1fr;
-
-    }
-
-
-    .appointments {
-
-        padding: 20px;
-
-    }
-
-
-    .appointments-header {
-
-        flex-direction: column;
-
-        align-items: flex-start;
-
-    }
-
-
-    .clear-btn {
-
-        align-self: flex-start;
-
-    }
-
-}
-
-
-</style>
+    <!-- =========================
+         ADMIN CSS
+    ========================== -->
+    <link
+        rel="stylesheet"
+        href="css/admin.css"
+    >
 
 </head>
 
@@ -769,32 +63,34 @@ tr:hover {
 <body>
 
 
-<!-- =========================
+<!-- =====================================================
      HEADER
-========================= -->
+===================================================== -->
 
 <header>
 
-
     <div class="logo">
 
-        🦷 BrightSmile Admin
+        <span class="admin-logo-icon">
+            <i class="fa-solid fa-tooth"></i>
+        </span>
+
+        <span class="admin-logo-text">
+            BrightSmile
+            <small>Admin</small>
+        </span>
 
     </div>
 
 
     <div class="header-buttons">
 
-
         <a
             href="index.html"
             class="back-btn"
         >
-
             <i class="fa-solid fa-arrow-left"></i>
-
-            Back to Website
-
+            <span>Back to Website</span>
         </a>
 
 
@@ -802,33 +98,42 @@ tr:hover {
             class="logout-btn"
             onclick="logoutAdmin()"
         >
-
             <i class="fa-solid fa-right-from-bracket"></i>
-
-            Logout
-
+            <span>Logout</span>
         </button>
 
-
     </div>
-
 
 </header>
 
 
 
-<!-- =========================
+<!-- =====================================================
      DASHBOARD
-========================= -->
+===================================================== -->
 
 <main class="dashboard">
 
 
+    <!-- =========================
+         TITLE
+    ========================== -->
+
     <div class="dashboard-title">
+
+        <div class="dashboard-eyebrow">
+
+            <span></span>
+
+            BrightSmile Dental Studio
+
+        </div>
+
 
         <h1>
             Appointment Dashboard
         </h1>
+
 
         <p>
             View and manage appointment requests submitted through the BrightSmile website.
@@ -838,7 +143,9 @@ tr:hover {
 
 
 
-    <!-- ERROR -->
+    <!-- =========================
+         ERROR
+    ========================== -->
 
     <div
         id="errorMessage"
@@ -847,20 +154,34 @@ tr:hover {
 
 
 
-    <!-- =========================
+    <!-- =================================================
          STATISTICS
-    ========================= -->
+    ================================================== -->
 
     <div class="stats">
 
 
+        <!-- TOTAL -->
+
         <div class="stat-card">
 
-            <i class="fa-solid fa-calendar-check"></i>
+            <div class="stat-card-top">
+
+                <div class="stat-icon">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+
+                <span class="stat-label">
+                    OVERVIEW
+                </span>
+
+            </div>
+
 
             <h2 id="totalAppointments">
                 0
             </h2>
+
 
             <p>
                 Total Appointments
@@ -870,13 +191,27 @@ tr:hover {
 
 
 
+        <!-- TODAY -->
+
         <div class="stat-card">
 
-            <i class="fa-solid fa-clock"></i>
+            <div class="stat-card-top">
+
+                <div class="stat-icon">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+
+                <span class="stat-label">
+                    TODAY
+                </span>
+
+            </div>
+
 
             <h2 id="todayAppointments">
                 0
             </h2>
+
 
             <p>
                 Today's Appointments
@@ -886,13 +221,27 @@ tr:hover {
 
 
 
+        <!-- PATIENTS -->
+
         <div class="stat-card">
 
-            <i class="fa-solid fa-users"></i>
+            <div class="stat-card-top">
+
+                <div class="stat-icon">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+                <span class="stat-label">
+                    PATIENTS
+                </span>
+
+            </div>
+
 
             <h2 id="totalPatients">
                 0
             </h2>
+
 
             <p>
                 Total Patients
@@ -900,30 +249,45 @@ tr:hover {
 
         </div>
 
-
     </div>
 
 
 
-    <!-- =========================
-         APPOINTMENT SECTION
-    ========================= -->
+    <!-- =================================================
+         APPOINTMENTS
+    ================================================== -->
 
     <div class="appointments">
 
 
+        <!-- =========================
+             APPOINTMENTS HEADER
+        ========================== -->
+
         <div class="appointments-header">
 
 
-            <div>
+            <div class="appointments-heading">
+
+                <span class="section-kicker">
+                    MANAGEMENT
+                </span>
+
 
                 <h2>
                     Appointment Requests
                 </h2>
 
 
-                <div class="appointment-filters">
+                <p>
+                    Review and manage your latest patient requests.
+                </p>
 
+
+
+                <!-- FILTERS -->
+
+                <div class="appointment-filters">
 
                     <button
                         class="filter-btn active"
@@ -956,12 +320,13 @@ tr:hover {
                         Completed
                     </button>
 
-
                 </div>
 
             </div>
 
 
+
+            <!-- CLEAR ALL -->
 
             <button
                 class="clear-btn"
@@ -970,18 +335,19 @@ tr:hover {
 
                 <i class="fa-solid fa-trash"></i>
 
-                Clear All
+                <span>
+                    Clear All
+                </span>
 
             </button>
-
 
         </div>
 
 
 
         <!-- =========================
-             TABLE
-        ========================= -->
+             APPOINTMENT TABLE
+        ========================== -->
 
         <div id="appointmentTable">
 
@@ -997,17 +363,122 @@ tr:hover {
 
         </div>
 
-
     </div>
-
 
 </main>
 
 
 
-<!-- =========================
+<!-- =====================================================
+     APPOINTMENT DETAILS MODAL
+===================================================== -->
+
+<div
+    id="appointmentModal"
+    class="appointment-modal"
+    aria-hidden="true"
+>
+
+
+    <!-- BACKDROP -->
+
+    <div
+        class="appointment-modal-backdrop"
+        onclick="closeAppointmentDetails()"
+    ></div>
+
+
+
+    <!-- MODAL -->
+
+    <div
+        class="appointment-modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="appointmentModalTitle"
+    >
+
+
+        <!-- =========================
+             MODAL HEADER
+        ========================== -->
+
+        <div class="appointment-modal-header">
+
+
+            <div>
+
+                <span class="modal-kicker">
+                    APPOINTMENT DETAILS
+                </span>
+
+
+                <h2 id="appointmentModalTitle">
+                    Patient Appointment
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-close-btn"
+                onclick="closeAppointmentDetails()"
+                aria-label="Close appointment details"
+            >
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+
+        <!-- =========================
+             MODAL CONTENT
+        ========================== -->
+
+        <div
+            id="appointmentDetailsContent"
+            class="appointment-details-content"
+        >
+
+            <!-- JavaScript inserts details here -->
+
+        </div>
+
+
+
+        <!-- =========================
+             MODAL FOOTER
+        ========================== -->
+
+        <div class="appointment-modal-footer">
+
+            <button
+                type="button"
+                class="modal-done-btn"
+                onclick="closeAppointmentDetails()"
+            >
+
+                <i class="fa-solid fa-check"></i>
+
+                Close Details
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
      SUCCESS MESSAGE
-========================= -->
+===================================================== -->
 
 <div
     id="successMessage"
@@ -1016,20 +487,25 @@ tr:hover {
 
 
 
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
 <script>
 
 
-// =====================================================
-// BACKEND URL
-// =====================================================
+/* =====================================================
+   BACKEND URL
+===================================================== */
 
-const API_URL = "https://bright-smile-dental-smoky.vercel.app/api";
+const API_URL =
+    "https://bright-smile-dental-smoky.vercel.app/api";
 
 
 
-// =====================================================
-// APPOINTMENT DATA
-// =====================================================
+/* =====================================================
+   APPOINTMENT DATA
+===================================================== */
 
 let appointments = [];
 
@@ -1037,19 +513,18 @@ let currentFilter = "All";
 
 
 
-// =====================================================
-// LOAD DASHBOARD
-// =====================================================
+/* =====================================================
+   LOAD DASHBOARD
+===================================================== */
 
 async function loadDashboard() {
 
-
     try {
 
-
-        const response = await fetch(
-            `${API_URL}/appointments`
-        );
+        const response =
+            await fetch(
+                `${API_URL}/appointments`
+            );
 
 
         if (!response.ok) {
@@ -1061,7 +536,8 @@ async function loadDashboard() {
         }
 
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
 
         appointments =
@@ -1072,14 +548,11 @@ async function loadDashboard() {
 
         displayAppointments();
 
-
         hideError();
-
 
     }
 
     catch (error) {
-
 
         console.error(
             "Load appointments error:",
@@ -1097,7 +570,6 @@ async function loadDashboard() {
 
         updateStatistics();
 
-
         displayAppointments();
 
     }
@@ -1106,12 +578,11 @@ async function loadDashboard() {
 
 
 
-// =====================================================
-// UPDATE STATISTICS
-// =====================================================
+/* =====================================================
+   UPDATE STATISTICS
+===================================================== */
 
 function updateStatistics() {
-
 
     const totalAppointments =
         document.getElementById(
@@ -1131,15 +602,14 @@ function updateStatistics() {
         );
 
 
-
-    // Total appointments
+    /* Total appointments */
 
     totalAppointments.textContent =
         appointments.length;
 
 
 
-    // Today's appointments
+    /* Today's appointments */
 
     const today =
         new Date()
@@ -1162,16 +632,14 @@ function updateStatistics() {
 
 
 
-    // Unique patients
+    /* Unique patients */
 
     const uniquePatients =
         new Set(
-
             appointments.map(
                 appointment =>
                     appointment.phone
             )
-
         );
 
 
@@ -1182,12 +650,11 @@ function updateStatistics() {
 
 
 
-// =====================================================
-// DISPLAY APPOINTMENTS
-// =====================================================
+/* =====================================================
+   DISPLAY APPOINTMENTS
+===================================================== */
 
 function displayAppointments() {
-
 
     const tableContainer =
         document.getElementById(
@@ -1195,16 +662,16 @@ function displayAppointments() {
         );
 
 
-
     let filteredAppointments =
         appointments;
 
 
 
-    // Apply filter
+    /* =========================
+       APPLY FILTER
+    ========================== */
 
     if (currentFilter !== "All") {
-
 
         filteredAppointments =
             appointments.filter(
@@ -1222,22 +689,29 @@ function displayAppointments() {
 
 
 
-    // Empty state
+    /* =========================
+       EMPTY STATE
+    ========================== */
 
     if (
         filteredAppointments.length === 0
     ) {
 
-
         tableContainer.innerHTML = `
 
             <div class="empty">
 
-                <i class="fa-solid fa-calendar-xmark"></i>
+                <div class="empty-icon">
+
+                    <i class="fa-solid fa-calendar-xmark"></i>
+
+                </div>
+
 
                 <h3>
                     No appointments found
                 </h3>
+
 
                 <p>
                     Appointment requests will appear here.
@@ -1247,14 +721,15 @@ function displayAppointments() {
 
         `;
 
-
         return;
 
     }
 
 
 
-    // Build table
+    /* =========================
+       BUILD TABLE
+    ========================== */
 
     let tableHTML = `
 
@@ -1339,18 +814,25 @@ function displayAppointments() {
 
             <tr>
 
+                <!-- NUMBER -->
 
                 <td>
 
-                    ${index + 1}
+                    <span class="row-number">
+
+                        ${index + 1}
+
+                    </span>
 
                 </td>
 
 
 
+                <!-- PATIENT -->
+
                 <td>
 
-                    <strong>
+                    <strong class="patient-name">
 
                         ${escapeHTML(
                             appointment.name || "-"
@@ -1362,6 +844,8 @@ function displayAppointments() {
 
 
 
+                <!-- PHONE -->
+
                 <td>
 
                     ${escapeHTML(
@@ -1371,6 +855,8 @@ function displayAppointments() {
                 </td>
 
 
+
+                <!-- EMAIL -->
 
                 <td>
 
@@ -1382,6 +868,8 @@ function displayAppointments() {
 
 
 
+                <!-- DATE -->
+
                 <td>
 
                     ${escapeHTML(
@@ -1391,6 +879,8 @@ function displayAppointments() {
                 </td>
 
 
+
+                <!-- TIME -->
 
                 <td>
 
@@ -1402,23 +892,28 @@ function displayAppointments() {
 
 
 
+                <!-- SERVICE -->
+
                 <td>
 
-                    ${escapeHTML(
-                        appointment.service || "-"
-                    )}
+                    <span class="service-name">
+
+                        ${escapeHTML(
+                            appointment.service || "-"
+                        )}
+
+                    </span>
 
                 </td>
 
 
 
+                <!-- STATUS -->
+
                 <td>
 
-
                     <select
-
                         class="status-select ${statusClass}"
-
                         onchange="
                             changeStatus(
                                 ${actualIndex},
@@ -1426,72 +921,68 @@ function displayAppointments() {
                                 this
                             )
                         "
-
                     >
 
-
                         <option
-
                             value="Pending"
-
                             ${
                                 status === "Pending"
                                     ? "selected"
                                     : ""
                             }
-
                         >
-
                             Pending
-
                         </option>
 
 
-
                         <option
-
                             value="Confirmed"
-
                             ${
                                 status === "Confirmed"
                                     ? "selected"
                                     : ""
                             }
-
                         >
-
                             Confirmed
-
                         </option>
 
 
-
                         <option
-
                             value="Completed"
-
                             ${
                                 status === "Completed"
                                     ? "selected"
                                     : ""
                             }
-
                         >
-
                             Completed
-
                         </option>
 
-
                     </select>
-
 
                 </td>
 
 
 
-       
+                <!-- VIEW DETAILS -->
 
+                <td>
+
+                    <button
+                        type="button"
+                        class="view-details-btn"
+                        onclick="openAppointmentDetails(${actualIndex})"
+                    >
+
+                        <i class="fa-solid fa-eye"></i>
+
+                        <span>
+                            View Details
+                        </span>
+
+                    </button>
+
+                </td>
 
             </tr>
 
@@ -1520,19 +1011,17 @@ function displayAppointments() {
 
 
 
-// =====================================================
-// FILTER APPOINTMENTS
-// =====================================================
+/* =====================================================
+   FILTER APPOINTMENTS
+===================================================== */
 
 function filterAppointments(
     filter,
     button
 ) {
 
-
     currentFilter =
         filter;
-
 
 
     document
@@ -1548,7 +1037,6 @@ function filterAppointments(
         });
 
 
-
     if (button) {
 
         button.classList.add(
@@ -1558,23 +1046,426 @@ function filterAppointments(
     }
 
 
-
     displayAppointments();
 
 }
 
 
 
-// =====================================================
-// CHANGE STATUS
-// =====================================================
+/* =====================================================
+   OPEN APPOINTMENT DETAILS
+===================================================== */
+
+function openAppointmentDetails(index) {
+
+    const appointment =
+        appointments[index];
+
+
+    if (!appointment) {
+
+        return;
+
+    }
+
+
+
+    const modal =
+        document.getElementById(
+            "appointmentModal"
+        );
+
+
+    const content =
+        document.getElementById(
+            "appointmentDetailsContent"
+        );
+
+
+
+    const status =
+        appointment.status ||
+        "Pending";
+
+
+
+    let statusClass =
+        "details-status-pending";
+
+
+    if (
+        status === "Confirmed"
+    ) {
+
+        statusClass =
+            "details-status-confirmed";
+
+    }
+
+
+    if (
+        status === "Completed"
+    ) {
+
+        statusClass =
+            "details-status-completed";
+
+    }
+
+
+
+    /*
+       The backend uses:
+       appointment.message
+
+       We also safely handle an empty message.
+    */
+
+    const message =
+        appointment.message &&
+        String(
+            appointment.message
+        ).trim()
+            ? appointment.message
+            : "No additional message was provided.";
+
+
+
+    content.innerHTML = `
+
+        <!-- PATIENT -->
+
+        <div class="details-patient">
+
+            <div class="details-patient-icon">
+
+                <i class="fa-solid fa-user"></i>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    PATIENT
+                </span>
+
+                <strong>
+                    ${escapeHTML(
+                        appointment.name || "-"
+                    )}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- INFORMATION GRID -->
+
+        <div class="details-grid">
+
+
+            <!-- PHONE -->
+
+            <div class="detail-item">
+
+                <div class="detail-icon">
+
+                    <i class="fa-solid fa-phone"></i>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        PHONE
+                    </span>
+
+                    <strong>
+                        ${escapeHTML(
+                            appointment.phone || "-"
+                        )}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- EMAIL -->
+
+            <div class="detail-item">
+
+                <div class="detail-icon">
+
+                    <i class="fa-solid fa-envelope"></i>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        EMAIL
+                    </span>
+
+                    <strong class="detail-value-break">
+
+                        ${escapeHTML(
+                            appointment.email || "-"
+                        )}
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DATE -->
+
+            <div class="detail-item">
+
+                <div class="detail-icon">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        PREFERRED DATE
+                    </span>
+
+                    <strong>
+                        ${escapeHTML(
+                            appointment.date || "-"
+                        )}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TIME -->
+
+            <div class="detail-item">
+
+                <div class="detail-icon">
+
+                    <i class="fa-solid fa-clock"></i>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        PREFERRED TIME
+                    </span>
+
+                    <strong>
+                        ${escapeHTML(
+                            appointment.time || "-"
+                        )}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SERVICE -->
+
+            <div class="detail-item">
+
+                <div class="detail-icon">
+
+                    <i class="fa-solid fa-tooth"></i>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        SERVICE
+                    </span>
+
+                    <strong>
+                        ${escapeHTML(
+                            appointment.service || "-"
+                        )}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STATUS -->
+
+            <div class="detail-item">
+
+                <div class="detail-icon">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        STATUS
+                    </span>
+
+                    <strong
+                        class="details-status ${statusClass}"
+                    >
+                        ${escapeHTML(status)}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MESSAGE -->
+
+        <div class="appointment-message-box">
+
+            <div class="message-heading">
+
+                <div class="message-icon">
+
+                    <i class="fa-solid fa-message"></i>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        PATIENT MESSAGE
+                    </span>
+
+                    <h3>
+                        Additional Notes / Symptoms
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="appointment-message-text">
+
+                ${escapeHTML(message)}
+
+            </div>
+
+        </div>
+
+    `;
+
+
+
+    /* =========================
+       SHOW MODAL
+    ========================== */
+
+    modal.classList.add("show");
+
+    modal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+
+    document.body.classList.add(
+        "modal-open"
+    );
+
+}
+
+
+
+/* =====================================================
+   CLOSE APPOINTMENT DETAILS
+===================================================== */
+
+function closeAppointmentDetails() {
+
+    const modal =
+        document.getElementById(
+            "appointmentModal"
+        );
+
+
+    modal.classList.remove(
+        "show"
+    );
+
+
+    modal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+    document.body.classList.remove(
+        "modal-open"
+    );
+
+}
+
+
+
+/* =====================================================
+   ESC KEY CLOSES MODAL
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeAppointmentDetails();
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   CHANGE STATUS
+===================================================== */
 
 async function changeStatus(
     index,
     newStatus,
     selectElement
 ) {
-
 
     const appointment =
         appointments[index];
@@ -1592,94 +1483,67 @@ async function changeStatus(
         "Pending";
 
 
-
-    // Prevent accidental duplicate requests
-
-    selectElement.disabled = true;
-
+    selectElement.disabled =
+        true;
 
 
     try {
 
-
         const response =
             await fetch(
-
                 `${API_URL}/appointments/${appointment.id}/status`,
-
                 {
-
                     method: "PATCH",
 
                     headers: {
-
                         "Content-Type":
                             "application/json"
-
                     },
 
                     body: JSON.stringify({
-
                         status: newStatus
-
                     })
-
                 }
-
             );
-
 
 
         const data =
             await response.json();
 
 
-
         if (!response.ok) {
 
-
             throw new Error(
-
                 data.detail ||
                 "Could not update appointment status."
-
             );
 
         }
 
 
-
-        // Update local page data
-
         appointments[index] =
             data.appointment;
 
 
-
         updateStatistics();
 
-
         displayAppointments();
-
 
 
         showSuccess(
             `Appointment status changed to ${newStatus}.`
         );
 
-
     }
 
-    catch (error) {
 
+    catch (error) {
 
         console.error(
             "Status update error:",
             error
         );
 
-
-        // Put dropdown back
 
         selectElement.value =
             oldStatus;
@@ -1689,11 +1553,10 @@ async function changeStatus(
             "Could not update the appointment status. Make sure the FastAPI backend is running."
         );
 
-
     }
 
-    finally {
 
+    finally {
 
         selectElement.disabled =
             false;
@@ -1704,13 +1567,9 @@ async function changeStatus(
 
 
 
-
-
-
-
-// =====================================================
-// CLEAR ALL APPOINTMENTS
-// =====================================================
+/* =====================================================
+   CLEAR ALL APPOINTMENTS
+===================================================== */
 
 document
     .getElementById(
@@ -1725,25 +1584,19 @@ document
             appointments.length === 0
         ) {
 
-
             alert(
                 "There are no appointments to clear."
             );
-
 
             return;
 
         }
 
 
-
         const confirmed =
             confirm(
-
                 "Are you sure you want to delete ALL appointments?"
-
             );
-
 
 
         if (!confirmed) {
@@ -1753,48 +1606,35 @@ document
         }
 
 
-
         try {
-
 
             const response =
                 await fetch(
-
                     `${API_URL}/appointments`,
-
                     {
-
                         method: "DELETE"
-
                     }
-
                 );
-
 
 
             const data =
                 await response.json();
 
 
-
             if (!response.ok) {
 
                 throw new Error(
-
                     data.detail ||
                     "Could not delete appointments."
-
                 );
 
             }
-
 
 
             appointments = [];
 
 
             updateStatistics();
-
 
             displayAppointments();
 
@@ -1803,11 +1643,10 @@ document
                 "All appointments have been deleted."
             );
 
-
         }
 
-        catch (error) {
 
+        catch (error) {
 
             console.error(
                 "Delete all error:",
@@ -1826,13 +1665,11 @@ document
 
 
 
-// =====================================================
-// ESCAPE HTML
-// Prevent HTML injection
-// =====================================================
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
 
 function escapeHTML(value) {
-
 
     return String(value)
 
@@ -1865,12 +1702,11 @@ function escapeHTML(value) {
 
 
 
-// =====================================================
-// SHOW ERROR
-// =====================================================
+/* =====================================================
+   SHOW ERROR
+===================================================== */
 
 function showError(message) {
-
 
     const errorElement =
         document.getElementById(
@@ -1889,12 +1725,11 @@ function showError(message) {
 
 
 
-// =====================================================
-// HIDE ERROR
-// =====================================================
+/* =====================================================
+   HIDE ERROR
+===================================================== */
 
 function hideError() {
-
 
     const errorElement =
         document.getElementById(
@@ -1909,12 +1744,11 @@ function hideError() {
 
 
 
-// =====================================================
-// SHOW SUCCESS
-// =====================================================
+/* =====================================================
+   SHOW SUCCESS
+===================================================== */
 
 function showSuccess(message) {
-
 
     const successElement =
         document.getElementById(
@@ -1946,12 +1780,11 @@ function showSuccess(message) {
 
 
 
-// =====================================================
-// LOGOUT
-// =====================================================
+/* =====================================================
+   LOGOUT
+===================================================== */
 
 function logoutAdmin() {
-
 
     sessionStorage.removeItem(
         "brightSmileAdminLoggedIn"
@@ -1965,12 +1798,11 @@ function logoutAdmin() {
 
 
 
-// =====================================================
-// START DASHBOARD
-// =====================================================
+/* =====================================================
+   START DASHBOARD
+===================================================== */
 
 loadDashboard();
-
 
 </script>
 

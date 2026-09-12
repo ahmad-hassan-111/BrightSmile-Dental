@@ -1,278 +1,1102 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
 
-```
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BrightSmile Admin Login</title>
+    <title>BrightSmile | Admin Login</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet">
 
-<link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
+    <style>
 
-<style>
+        /* =========================================
+           RESET
+        ========================================= */
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Poppins', sans-serif;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, #eaf3ff, #f8fbff);
-        padding: 20px;
-    }
-
-    .login-card {
-        width: 100%;
-        max-width: 430px;
-        background: white;
-        padding: 45px 40px;
-        border-radius: 25px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-    }
-
-    .logo {
-        text-align: center;
-        font-size: 30px;
-        font-weight: 700;
-        color: #0d6efd;
-        margin-bottom: 10px;
-    }
-
-    .subtitle {
-        text-align: center;
-        color: #777;
-        margin-bottom: 35px;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
-        color: #0b2545;
-    }
-
-    .form-group input {
-        width: 100%;
-        padding: 14px 16px;
-        border: 1px solid #ddd;
-        border-radius: 12px;
-        font-size: 15px;
-        font-family: inherit;
-        outline: none;
-        transition: 0.3s;
-    }
-
-    .form-group input:focus {
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
-    }
-
-    .login-btn {
-        width: 100%;
-        border: none;
-        background: #0d6efd;
-        color: white;
-        padding: 15px;
-        border-radius: 50px;
-        font-size: 16px;
-        font-weight: 600;
-        font-family: inherit;
-        cursor: pointer;
-        transition: 0.3s;
-        margin-top: 5px;
-    }
-
-    .login-btn:hover {
-        background: #084fc7;
-        transform: translateY(-2px);
-    }
-
-    .error-message {
-        display: none;
-        background: #ffe8eb;
-        color: #b02a37;
-        border: 1px solid #f5c2c7;
-        padding: 12px 15px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        text-align: center;
-        font-size: 14px;
-    }
-
-    .back-link {
-        display: block;
-        text-align: center;
-        margin-top: 25px;
-        color: #0d6efd;
-        text-decoration: none;
-        font-weight: 500;
-    }
-
-    .back-link:hover {
-        text-decoration: underline;
-    }
-
-    @media (max-width: 500px) {
-
-        .login-card {
-            padding: 35px 25px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .logo {
+
+        /* =========================================
+           ROOT
+        ========================================= */
+
+        :root {
+            --green: #073f3a;
+            --green-dark: #052f2b;
+            --green-light: #0b514a;
+
+            --cream: #f6f3eb;
+            --gold: #bd8b4c;
+            --gold-light: #d5b27d;
+
+            --text: #173b3a;
+            --muted: #71817f;
+
+            --white: #ffffff;
+        }
+
+
+        /* =========================================
+           BODY
+        ========================================= */
+
+        body {
+
+            min-height: 100vh;
+
+            font-family: "DM Sans", sans-serif;
+
+            background: var(--cream);
+
+            color: var(--text);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 30px;
+
+            overflow: hidden;
+
+            position: relative;
+        }
+
+
+        /* =========================================
+           BACKGROUND DECORATION
+        ========================================= */
+
+        body::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 600px;
+            height: 600px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(189,139,76,.13),
+                    transparent 68%
+                );
+
+            top: -280px;
+            right: -180px;
+
+            animation: floatGlow 8s ease-in-out infinite;
+        }
+
+
+        body::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 500px;
+            height: 500px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(7,63,58,.10),
+                    transparent 70%
+                );
+
+            bottom: -260px;
+            left: -180px;
+
+            animation: floatGlow 10s ease-in-out infinite reverse;
+        }
+
+
+        @keyframes floatGlow {
+
+            0%,
+            100% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            50% {
+                transform: translate3d(0, 18px, 0);
+            }
+        }
+
+
+        /* =========================================
+           MAIN WRAPPER
+        ========================================= */
+
+        .login-wrapper {
+
+            width: 100%;
+
+            max-width: 1050px;
+
+            min-height: 610px;
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            background: var(--white);
+
+            border-radius: 28px;
+
+            overflow: hidden;
+
+            position: relative;
+
+            z-index: 2;
+
+            box-shadow:
+                0 35px 90px rgba(7,63,58,.14);
+
+            animation: cardEnter .8s ease both;
+        }
+
+
+        @keyframes cardEnter {
+
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* =========================================
+           LEFT BRAND PANEL
+        ========================================= */
+
+        .brand-panel {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #073f3a 0%,
+                    #062f2c 55%,
+                    #041f1d 100%
+                );
+
+            color: white;
+
+            padding: 60px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: space-between;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        /* Decorative circle */
+
+        .brand-panel::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 390px;
+            height: 390px;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(213,178,125,.18);
+
+            right: -190px;
+            top: -130px;
+        }
+
+
+        .brand-panel::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 260px;
+            height: 260px;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(213,178,125,.12);
+
+            left: -150px;
+            bottom: -120px;
+        }
+
+
+        /* =========================================
+           BRAND
+        ========================================= */
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        .brand-symbol {
+
+            width: 52px;
+            height: 52px;
+
+            border: 1px solid rgba(213,178,125,.5);
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: var(--gold-light);
+
             font-size: 26px;
+
+            background: rgba(255,255,255,.04);
+
+            transition: .35s ease;
         }
 
-    }
 
-</style>
-```
+        .brand:hover .brand-symbol {
+
+            transform: rotate(-5deg);
+
+            background: rgba(189,139,76,.12);
+        }
+
+
+        .brand-name {
+
+            font-family: "Playfair Display", Georgia, serif;
+
+            font-size: 29px;
+
+            font-weight: 600;
+
+            letter-spacing: -.5px;
+        }
+
+
+        /* =========================================
+           BRAND CONTENT
+        ========================================= */
+
+        .brand-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 390px;
+        }
+
+
+        .eyebrow {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            color: var(--gold-light);
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: 3px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 22px;
+        }
+
+
+        .eyebrow::before {
+
+            content: "";
+
+            width: 35px;
+
+            height: 1px;
+
+            background: var(--gold-light);
+        }
+
+
+        .brand-content h1 {
+
+            font-family: "Playfair Display", Georgia, serif;
+
+            font-size: clamp(42px, 4vw, 58px);
+
+            line-height: 1.02;
+
+            font-weight: 500;
+
+            letter-spacing: -1.5px;
+
+            margin-bottom: 24px;
+        }
+
+
+        .brand-content h1 span {
+
+            color: var(--gold-light);
+        }
+
+
+        .brand-content p {
+
+            color: rgba(255,255,255,.68);
+
+            font-size: 15px;
+
+            line-height: 1.8;
+
+            max-width: 360px;
+        }
+
+
+        /* =========================================
+           BRAND FOOTER
+        ========================================= */
+
+        .brand-footer {
+
+            position: relative;
+
+            z-index: 2;
+
+            color: rgba(255,255,255,.48);
+
+            font-size: 12px;
+
+            letter-spacing: .4px;
+        }
+
+
+        .brand-footer span {
+
+            color: var(--gold-light);
+        }
+
+
+        /* =========================================
+           LOGIN PANEL
+        ========================================= */
+
+        .login-panel {
+
+            padding: 60px 65px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        .login-content {
+
+            width: 100%;
+
+            max-width: 390px;
+        }
+
+
+        .login-heading {
+
+            margin-bottom: 34px;
+        }
+
+
+        .login-heading h2 {
+
+            font-family: "Playfair Display", Georgia, serif;
+
+            color: var(--green);
+
+            font-size: 38px;
+
+            font-weight: 600;
+
+            letter-spacing: -1px;
+
+            margin-bottom: 9px;
+        }
+
+
+        .login-heading p {
+
+            color: var(--muted);
+
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           ERROR
+        ========================================= */
+
+        .error-message {
+
+            display: none;
+
+            background: #fff5f3;
+
+            color: #a34336;
+
+            border: 1px solid #f0d3ce;
+
+            padding: 12px 15px;
+
+            border-radius: 10px;
+
+            margin-bottom: 22px;
+
+            font-size: 13px;
+
+            animation: errorShake .35s ease;
+        }
+
+
+        @keyframes errorShake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-4px);
+            }
+
+            75% {
+                transform: translateX(4px);
+            }
+        }
+
+
+        /* =========================================
+           FORM
+        ========================================= */
+
+        .form-group {
+
+            margin-bottom: 21px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            color: var(--green);
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+        }
+
+
+        .input-wrapper {
+
+            position: relative;
+        }
+
+
+        .input-icon {
+
+            position: absolute;
+
+            left: 16px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #9aa7a5;
+
+            font-size: 14px;
+
+            pointer-events: none;
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            height: 52px;
+
+            padding: 0 16px 0 43px;
+
+            border: 1px solid #dce3e1;
+
+            border-radius: 10px;
+
+            background: #fbfcfb;
+
+            color: var(--green);
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition:
+                border-color .3s ease,
+                box-shadow .3s ease,
+                background .3s ease;
+        }
+
+
+        .form-group input::placeholder {
+
+            color: #a7b0ae;
+        }
+
+
+        .form-group input:focus {
+
+            background: white;
+
+            border-color: var(--gold);
+
+            box-shadow:
+                0 0 0 4px rgba(189,139,76,.10);
+        }
+
+
+        /* =========================================
+           LOGIN BUTTON
+        ========================================= */
+
+        .login-btn {
+
+            width: 100%;
+
+            height: 54px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: var(--green);
+
+            color: white;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            letter-spacing: .2px;
+
+            cursor: pointer;
+
+            margin-top: 7px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            transition:
+                transform .3s ease,
+                background .3s ease,
+                box-shadow .3s ease;
+        }
+
+
+        .login-btn::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 100px;
+            height: 100px;
+
+            background: rgba(255,255,255,.08);
+
+            border-radius: 50%;
+
+            top: -35px;
+            right: -35px;
+
+            transition: .5s ease;
+        }
+
+
+        .login-btn:hover {
+
+            background: var(--green-light);
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 28px rgba(7,63,58,.20);
+        }
+
+
+        .login-btn:hover::after {
+
+            transform: scale(1.5);
+        }
+
+
+        .login-btn:active {
+
+            transform: translateY(0);
+        }
+
+
+        /* =========================================
+           BACK LINK
+        ========================================= */
+
+        .back-link {
+
+            display: block;
+
+            text-align: center;
+
+            margin-top: 24px;
+
+            color: #71817f;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: .25s ease;
+        }
+
+
+        .back-link:hover {
+
+            color: var(--green);
+
+            transform: translateX(-2px);
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 850px) {
+
+            body {
+                padding: 20px;
+                overflow: auto;
+            }
+
+            .login-wrapper {
+
+                max-width: 520px;
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .brand-panel {
+
+                min-height: 310px;
+
+                padding: 38px;
+            }
+
+            .brand-content h1 {
+
+                font-size: 42px;
+            }
+
+            .brand-footer {
+
+                display: none;
+            }
+
+            .login-panel {
+
+                padding: 45px 38px;
+            }
+        }
+
+
+        @media (max-width: 500px) {
+
+            body {
+                padding: 12px;
+            }
+
+            .login-wrapper {
+
+                border-radius: 20px;
+            }
+
+            .brand-panel {
+
+                padding: 30px;
+
+                min-height: 280px;
+            }
+
+            .brand-symbol {
+
+                width: 46px;
+                height: 46px;
+
+                font-size: 23px;
+            }
+
+            .brand-name {
+
+                font-size: 25px;
+            }
+
+            .brand-content h1 {
+
+                font-size: 36px;
+            }
+
+            .brand-content p {
+
+                font-size: 13px;
+            }
+
+            .login-panel {
+
+                padding: 38px 25px;
+            }
+
+            .login-heading h2 {
+
+                font-size: 32px;
+            }
+        }
+
+    </style>
 
 </head>
 
+
 <body>
 
-```
-<div class="login-card">
 
-    <div class="logo">
-        🦷 BrightSmile Admin
+    <div class="login-wrapper">
+
+
+        <!-- =====================================
+             LEFT BRAND PANEL
+        ====================================== -->
+
+        <section class="brand-panel">
+
+
+            <div class="brand">
+
+                <div class="brand-symbol">
+
+                    <!-- Simple dental symbol -->
+
+                    <svg
+                        width="25"
+                        height="29"
+                        viewBox="0 0 32 36"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+
+                        <path
+                            d="M8.3 3.2C10.7 1.4 13.2 1.5 16 3.1C18.8 1.5 21.3 1.4 23.7 3.2C28 6.4 27.3 12.1 25.7 16.2C24.2 20 22.9 23.4 22.2 28.5C21.8 31.5 20.5 33.7 18.8 33.7C17.1 33.7 16.6 30.9 16 27.9C15.6 25.7 14.9 23.8 14.3 23.8C13.7 23.8 13 25.7 12.6 27.9C12 30.9 11.5 33.7 9.8 33.7C8.1 33.7 6.8 31.5 6.4 28.5C5.7 23.4 4.4 20 2.9 16.2C1.3 12.1 0.6 6.4 4.9 3.2C6 2.4 7.1 2.9 8.3 3.2Z"
+                            fill="currentColor"/>
+
+                    </svg>
+
+                </div>
+
+
+                <div class="brand-name">
+                    BrightSmile
+                </div>
+
+            </div>
+
+
+            <div class="brand-content">
+
+                <div class="eyebrow">
+                    ADMINISTRATION
+                </div>
+
+                <h1>
+                    Care begins<br>
+                    with <span>confidence.</span>
+                </h1>
+
+                <p>
+                    Secure access to your BrightSmile
+                    clinic management dashboard.
+                    Manage appointments and keep
+                    your practice running smoothly.
+                </p>
+
+            </div>
+
+
+            <div class="brand-footer">
+
+                BrightSmile Dental Studio
+                <span>•</span>
+                Est. 2004
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             LOGIN PANEL
+        ====================================== -->
+
+        <section class="login-panel">
+
+
+            <div class="login-content">
+
+
+                <div class="login-heading">
+
+                    <h2>
+                        Welcome back.
+                    </h2>
+
+                    <p>
+                        Sign in to access your admin dashboard.
+                    </p>
+
+                </div>
+
+
+
+                <div
+                    id="errorMessage"
+                    class="error-message">
+
+                    Invalid username or password.
+
+                </div>
+
+
+
+                <form id="loginForm">
+
+
+                    <div class="form-group">
+
+                        <label for="username">
+                            Username
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                ◉
+                            </span>
+
+                            <input
+                                type="text"
+                                id="username"
+                                placeholder="Enter your username"
+                                autocomplete="username"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                ◆
+                            </span>
+
+                            <input
+                                type="password"
+                                id="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <button
+                        type="submit"
+                        class="login-btn">
+
+                        Sign In to Dashboard
+
+                    </button>
+
+
+                </form>
+
+
+
+                <a
+                    href="index.html"
+                    class="back-link">
+
+                    ← Back to BrightSmile website
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
     </div>
 
-    <p class="subtitle">
-        Sign in to manage appointments
-    </p>
 
 
-    <div
-        id="errorMessage"
-        class="error-message">
+    <script>
 
-        Invalid username or password.
+        /* =========================================
+           EXISTING LOGIN SYSTEM
+        ========================================= */
 
-    </div>
+        const ADMIN_USERNAME = "admin";
 
-
-    <form id="loginForm">
-
-        <div class="form-group">
-
-            <label for="username">
-                Username
-            </label>
-
-            <input
-                type="text"
-                id="username"
-                placeholder="Enter username"
-                autocomplete="username"
-                required>
-
-        </div>
+        const ADMIN_PASSWORD = "brightsmile123";
 
 
-        <div class="form-group">
-
-            <label for="password">
-                Password
-            </label>
-
-            <input
-                type="password"
-                id="password"
-                placeholder="Enter password"
-                autocomplete="current-password"
-                required>
-
-        </div>
+        const loginForm =
+            document.getElementById("loginForm");
 
 
-        <button
-            type="submit"
-            class="login-btn">
-
-            Login
-
-        </button>
-
-    </form>
+        const errorMessage =
+            document.getElementById("errorMessage");
 
 
-    <a
-        href="index.html"
-        class="back-link">
+        loginForm.addEventListener(
+            "submit",
+            function(event) {
 
-        ← Back to Website
-
-    </a>
-
-</div>
+                event.preventDefault();
 
 
-<script>
-
-    const ADMIN_USERNAME = "admin";
-    const ADMIN_PASSWORD = "brightsmile123";
-
-    const loginForm =
-        document.getElementById("loginForm");
-
-    const errorMessage =
-        document.getElementById("errorMessage");
+                const username =
+                    document
+                        .getElementById("username")
+                        .value
+                        .trim();
 
 
-    loginForm.addEventListener("submit", function(event) {
-
-        event.preventDefault();
-
-        const username =
-            document.getElementById("username").value.trim();
-
-        const password =
-            document.getElementById("password").value;
+                const password =
+                    document
+                        .getElementById("password")
+                        .value;
 
 
-        if (
-            username === ADMIN_USERNAME &&
-            password === ADMIN_PASSWORD
-        ) {
+                if (
+                    username === ADMIN_USERNAME &&
+                    password === ADMIN_PASSWORD
+                ) {
 
-            sessionStorage.setItem(
-                "brightSmileAdminLoggedIn",
-                "true"
-            );
+                    sessionStorage.setItem(
+                        "brightSmileAdminLoggedIn",
+                        "true"
+                    );
 
-            window.location.href = "admin.html";
 
-        } else {
+                    window.location.href =
+                        "admin.html";
 
-            errorMessage.style.display = "block";
+                }
 
-        }
+                else {
 
-    });
+                    errorMessage.style.display =
+                        "block";
 
-</script>
-```
+                }
+
+            }
+        );
+
+
+    </script>
+
 
 </body>
 
