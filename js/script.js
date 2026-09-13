@@ -536,22 +536,13 @@ document.addEventListener(
 // =====================================================
 
 const appointmentForm =
-    document.getElementById(
-        "appointmentForm"
-    );
-
+    document.getElementById("appointmentForm");
 
 const successMessage =
-    document.getElementById(
-        "successMessage"
-    );
-
+    document.getElementById("successMessage");
 
 const closeSuccess =
-    document.getElementById(
-        "closeSuccess"
-    );
-
+    document.getElementById("closeSuccess");
 
 const API_URL =
     "https://bright-smile-dental-smoky.vercel.app/api";
@@ -566,51 +557,94 @@ if (appointmentForm) {
             event.preventDefault();
 
 
-            const inputs =
-                appointmentForm.querySelectorAll(
-                    "input"
-                );
-
-
-            const select =
-                appointmentForm.querySelector(
-                    "select"
-                );
-
-
-            const textarea =
-                appointmentForm.querySelector(
-                    "textarea"
-                );
-
+            // =================================================
+            // GET FORM VALUES BY NAME
+            // =================================================
 
             const name =
-                inputs[0]?.value.trim() || "";
+                appointmentForm
+                    .querySelector('[name="name"]')
+                    ?.value
+                    .trim() || "";
 
 
             const phone =
-                inputs[1]?.value.trim() || "";
+                appointmentForm
+                    .querySelector('[name="phone"]')
+                    ?.value
+                    .trim() || "";
 
 
             const email =
-                inputs[2]?.value.trim() || "";
+                appointmentForm
+                    .querySelector('[name="email"]')
+                    ?.value
+                    .trim() || "";
+
+
+            const age =
+                appointmentForm
+                    .querySelector('[name="age"]')
+                    ?.value
+                    .trim() || "";
+
+
+            const gender =
+                appointmentForm
+                    .querySelector('[name="gender"]')
+                    ?.value || "";
 
 
             const date =
-                inputs[3]?.value || "";
+                appointmentForm
+                    .querySelector('[name="date"]')
+                    ?.value || "";
 
 
             const time =
-                inputs[4]?.value || "";
+                appointmentForm
+                    .querySelector('[name="time"]')
+                    ?.value || "";
 
 
             const service =
-                select?.value || "";
+                appointmentForm
+                    .querySelector('[name="service"]')
+                    ?.value || "";
 
 
             const message =
-                textarea?.value.trim() || "";
+                appointmentForm
+                    .querySelector('[name="message"]')
+                    ?.value
+                    .trim() || "";
 
+
+            // =================================================
+            // VALIDATE AGE + GENDER
+            // =================================================
+
+            if (!age) {
+
+                alert("Please enter the patient's age.");
+
+                return;
+
+            }
+
+
+            if (!gender) {
+
+                alert("Please select the patient's gender.");
+
+                return;
+
+            }
+
+
+            // =================================================
+            // SUBMIT BUTTON
+            // =================================================
 
             const submitButton =
                 appointmentForm.querySelector(
@@ -620,15 +654,17 @@ if (appointmentForm) {
 
             if (submitButton) {
 
-                submitButton.disabled =
-                    true;
+                submitButton.disabled = true;
 
-
-                submitButton.textContent =
-                    "Sending...";
+                submitButton.innerHTML =
+                    '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
 
             }
 
+
+            // =================================================
+            // SEND APPOINTMENT TO FASTAPI
+            // =================================================
 
             try {
 
@@ -651,6 +687,10 @@ if (appointmentForm) {
 
                                 email: email,
 
+                                age: age,
+
+                                gender: gender,
+
                                 date: date,
 
                                 time: time,
@@ -669,7 +709,17 @@ if (appointmentForm) {
                     await response.json();
 
 
+                // =================================================
+                // HANDLE API ERROR
+                // =================================================
+
                 if (!response.ok) {
+
+                    console.error(
+                        "API Error:",
+                        data
+                    );
+
 
                     throw new Error(
                         data.detail ||
@@ -677,6 +727,16 @@ if (appointmentForm) {
                     );
 
                 }
+
+
+                // =================================================
+                // SUCCESS
+                // =================================================
+
+                console.log(
+                    "Appointment successfully submitted:",
+                    data
+                );
 
 
                 appointmentForm.reset();
@@ -700,20 +760,23 @@ if (appointmentForm) {
 
 
                 alert(
-                    "Could not submit the appointment. Please make sure the FastAPI backend is running."
+                    "Could not submit the appointment. Please try again."
                 );
 
 
             } finally {
+
+                // =================================================
+                // RESTORE BUTTON
+                // =================================================
 
                 if (submitButton) {
 
                     submitButton.disabled =
                         false;
 
-
-                    submitButton.textContent =
-                        "Book Appointment";
+                    submitButton.innerHTML =
+                        '<i class="fa-solid fa-calendar-check"></i> Confirm Appointment Request';
 
                 }
 
@@ -724,6 +787,29 @@ if (appointmentForm) {
 
 }
 
+
+// =====================================================
+// CLOSE SUCCESS MESSAGE
+// =====================================================
+
+if (closeSuccess) {
+
+    closeSuccess.addEventListener(
+        "click",
+        () => {
+
+            if (successMessage) {
+
+                successMessage.classList.remove(
+                    "show"
+                );
+
+            }
+
+        }
+    );
+
+}
 
 // =====================================================
 // CLOSE SUCCESS MESSAGE
@@ -1184,7 +1270,36 @@ document.addEventListener(
     }
 );
 
+// =====================================================
+// DOCTOR CAROUSEL ARROWS
+// =====================================================
 
+const doctorGrid = document.querySelector(".doctor-grid");
+const doctorNext = document.querySelector(".doctor-next");
+const doctorPrev = document.querySelector(".doctor-prev");
+
+if (doctorGrid && doctorNext && doctorPrev) {
+
+    doctorNext.addEventListener("click", () => {
+
+        doctorGrid.scrollBy({
+            left: 380,
+            behavior: "smooth"
+        });
+
+    });
+
+
+    doctorPrev.addEventListener("click", () => {
+
+        doctorGrid.scrollBy({
+            left: -380,
+            behavior: "smooth"
+        });
+
+    });
+
+}
 // =====================================================
 // END OF BRIGHTSMILE JAVASCRIPT
 // =====================================================

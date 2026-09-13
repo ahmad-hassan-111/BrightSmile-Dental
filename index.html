@@ -46,7 +46,7 @@
 
     </a>
 
-</div>
+
 
 
     <div class="menu-toggle" id="menu-toggle">
@@ -432,18 +432,24 @@
     </div>
 
 
+    <div class="doctor-carousel">
+    <button class="doctor-arrow doctor-prev">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
     <div class="doctor-grid">
 
 
+        <!-- Doctor 1 -->
         <div class="doctor-card">
 
             <img
                 src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600"
-                alt="Doctor">
+                alt="Dr. Michael Lee">
 
             <div class="doctor-info">
 
-                <h3>Dr. Michael lee</h3>
+                <h3>Dr. Michael Lee</h3>
 
                 <span>Cosmetic Dentist</span>
 
@@ -451,18 +457,17 @@
                     12+ years of experience in cosmetic and restorative dentistry.
                 </p>
 
-                
-
             </div>
 
         </div>
 
 
+        <!-- Doctor 2 -->
         <div class="doctor-card">
 
             <img
                 src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=600"
-                alt="Doctor">
+                alt="Dr. Sarah Johnson">
 
             <div class="doctor-info">
 
@@ -474,18 +479,17 @@
                     Specialized in implants, oral surgery and smile restoration.
                 </p>
 
-               
-
             </div>
 
         </div>
 
 
+        <!-- Doctor 3 -->
         <div class="doctor-card">
 
             <img
                 src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600"
-                alt="Doctor">
+                alt="Dr. Emma Wilson">
 
             <div class="doctor-info">
 
@@ -497,15 +501,85 @@
                     Helping patients achieve perfectly aligned smiles with modern braces.
                 </p>
 
-                
             </div>
 
         </div>
 
+
+        <!-- Doctor 4 -->
+        <div class="doctor-card">
+
+            <img
+                src="https://images.unsplash.com/photo-1618498082410-b4aa22193b38?w=600"
+                alt="Dr. Daniel Carter">
+
+            <div class="doctor-info">
+
+                <h3>Dr. Daniel Carter</h3>
+
+                <span>Periodontist</span>
+
+                <p>
+                    Specialized in gum health, periodontal treatment and advanced dental care.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Doctor 5 -->
+        <div class="doctor-card">
+
+            <img
+    src="https://images.pexels.com/photos/5355860/pexels-photo-5355860.jpeg?auto=compress&cs=tinysrgb&w=600"
+    alt="Dr. Olivia Martin">
+
+            <div class="doctor-info">
+
+                <h3>Dr. Olivia Martin</h3>
+
+                <span>Pediatric Dentist</span>
+
+                <p>
+                    Providing gentle and comfortable dental care designed especially for children.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Doctor 6 -->
+        <div class="doctor-card">
+
+            <img
+                src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=600"
+                alt="Dr. James Anderson">
+
+            <div class="doctor-info">
+
+                <h3>Dr. James Anderson</h3>
+
+                <span>Prosthodontist</span>
+
+                <p>
+                    Focused on crowns, bridges, dentures and complete smile restoration.
+                </p>
+
+            </div>
+
+                </div>
+
     </div>
 
-</section>
+    <button class="doctor-arrow doctor-next" type="button" aria-label="Next doctors">
+        <i class="fas fa-chevron-right"></i>
+    </button>
 
+</div>
+
+</section>
 
 
 <!-- ==========================
@@ -1165,70 +1239,136 @@
 =========================== -->
 <section class="appointment-section-wrapper" id="appointment">
     
-    <!-- Video Hero Header inside the single page -->
     <div class="appointment-hero-banner">
         <video autoplay loop muted playsinline poster="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200">
             <source src="https://assets.mixkit.co/videos/preview/mixkit-dentist-examining-a-patients-teeth-41512-large.mp4" type="video/mp4">
         </video>
+
         <div class="appointment-hero-overlay">
             <h2>Book Your Dental Visit</h2>
             <p>Select your desired service, date, and time. Our team will contact you to confirm your slot!</p>
         </div>
     </div>
 
-    <!-- Redesigned Appointment Card & Form -->
     <div class="appointment-container fade-in">
         <form id="appointmentForm">
+
             <div class="form-grid">
-                <div class="form-group">
-                    <label>Full Name *</label>
-                    <input type="text" placeholder="John Doe" required>
-                </div>
 
-                <div class="form-group">
-                    <label>Phone Number *</label>
-                    <input type="tel" placeholder="+1 (555) 000-0000" required>
-                </div>
+    <div class="form-group">
+        <label for="patient-name">Full Name *</label>
+        <input
+            type="text"
+            id="patient-name"
+            name="name"
+            placeholder="John Doe"
+            required>
+    </div>
 
-                <div class="form-group">
-                    <label>Email Address *</label>
-                    <input type="email" placeholder="example@mail.com" required>
-                </div>
+    <div class="form-group">
+        <label for="patient-phone">Phone Number *</label>
+        <input
+            type="tel"
+            id="patient-phone"
+            name="phone"
+            placeholder="+1 (555) 000-0000"
+            required>
+    </div>
 
-                <div class="form-group">
-                    <label>Select Service *</label>
-                    <select required>
-                        <option value="">Choose a Service</option>
-                        <option>General Checkup</option>
-                        <option>Teeth Cleaning</option>
-                        <option>Teeth Whitening</option>
-                        <option>Dental Implants</option>
-                        <option>Root Canal Treatment</option>
-                        <option>Emergency Care</option>
-                    </select>
-                </div>
+    <div class="form-group">
+        <label for="patient-email">Email Address *</label>
+        <input
+            type="email"
+            id="patient-email"
+            name="email"
+            placeholder="example@mail.com"
+            required>
+    </div>
 
-                <div class="form-group">
-                    <label>Preferred Date *</label>
-                    <input type="date" required>
-                </div>
+    <div class="form-group">
+        <label for="patient-age">Age *</label>
+        <input
+            type="number"
+            id="patient-age"
+            name="age"
+            min="1"
+            max="120"
+            placeholder="Enter your age"
+            required>
+    </div>
 
-                <div class="form-group">
-                    <label>Preferred Time *</label>
-                    <input type="time" required>
-                </div>
+    <div class="form-group">
+        <label for="patient-gender">Gender *</label>
+        <select
+            id="patient-gender"
+            name="gender"
+            required>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+        </select>
+    </div>
 
-                <div class="form-group full-width">
-                    <label>Additional Notes / Symptoms</label>
-                    <textarea placeholder="Tell us about any specific dental concerns..." rows="3"></textarea>
-                </div>
+    <div class="form-group">
+        <label for="patient-service">Select Service *</label>
+        <select
+            id="patient-service"
+            name="service"
+            required>
+            <option value="">Choose a Service</option>
+            <option value="General Checkup">General Checkup</option>
+            <option value="Teeth Cleaning">Teeth Cleaning</option>
+            <option value="Teeth Whitening">Teeth Whitening</option>
+            <option value="Dental Implants">Dental Implants</option>
+            <option value="Root Canal Treatment">Root Canal Treatment</option>
+            <option value="Emergency Care">Emergency Care</option>
+        </select>
+    </div>
 
-                <div class="form-group full-width">
-                    <button type="submit" class="submit-appointment-btn">
-                        <i class="fa-solid fa-calendar-check"></i> Confirm Appointment Request
-                    </button>
-                </div>
-            </div>
+    <div class="form-group">
+        <label for="patient-date">Preferred Date *</label>
+        <input
+            type="date"
+            id="patient-date"
+            name="date"
+            required>
+    </div>
+
+    <div class="form-group">
+        <label for="patient-time">Preferred Time *</label>
+        <input
+            type="time"
+            id="patient-time"
+            name="time"
+            required>
+    </div>
+
+    <div class="form-group full-width">
+        <label for="patient-message">
+            Additional Notes / Symptoms
+        </label>
+
+        <textarea
+            id="patient-message"
+            name="message"
+            placeholder="Tell us about any specific dental concerns..."
+            rows="3"></textarea>
+    </div>
+
+    <div class="form-group full-width">
+        <button
+            type="submit"
+            class="submit-appointment-btn">
+
+            <i class="fa-solid fa-calendar-check"></i>
+            Confirm Appointment Request
+
+        </button>
+    </div>
+
+</div>
         </form>
 
         <div id="successMessage" class="success-message">
@@ -1236,8 +1376,10 @@
                 <strong>✅ Appointment Request Received!</strong>
                 <p>Thank you! Our clinic team will contact you shortly to confirm your booking.</p>
             </div>
+
             <button type="button" id="closeSuccess">✕</button>
         </div>
+
     </div>
 </section>
 

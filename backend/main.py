@@ -22,12 +22,12 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-        allow_origins=[
-    "http://127.0.0.1:5500",
-    "http://localhost:5500",
-    "https://bright-smile-dental-smoky.vercel.app",
-    "https://bright-smile-dental-git-main-ahmad-95cb.vercel.app",
-    "https://bright-smile-dental-g3l50u4hy-ahmad-95cb.vercel.app"
+    allow_origins=[
+        "http://127.0.0.1:5500",
+        "http://localhost:5500",
+        "https://bright-smile-dental-smoky.vercel.app",
+        "https://bright-smile-dental-git-main-ahmad-95cb.vercel.app",
+        "https://bright-smile-dental-g3l50u4hy-ahmad-95cb.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -61,6 +61,8 @@ def setup_database():
                     name TEXT NOT NULL,
                     phone TEXT NOT NULL,
                     email TEXT NOT NULL,
+                    age TEXT NOT NULL DEFAULT '',
+                    gender TEXT NOT NULL DEFAULT '',
                     date TEXT NOT NULL,
                     time TEXT NOT NULL,
                     service TEXT NOT NULL,
@@ -70,11 +72,26 @@ def setup_database():
                 )
             """)
 
+            # Add columns if the table already existed
+            cursor.execute("""
+                ALTER TABLE appointments
+                ADD COLUMN IF NOT EXISTS age TEXT NOT NULL DEFAULT ''
+            """)
+
+            cursor.execute("""
+                ALTER TABLE appointments
+                ADD COLUMN IF NOT EXISTS gender TEXT NOT NULL DEFAULT ''
+            """)
+
         conn.commit()
 
 
 setup_database()
 
+
+# ==========================
+# LOAD APPOINTMENTS
+# ==========================
 
 def load_appointments():
 
@@ -88,6 +105,8 @@ def load_appointments():
                     name,
                     phone,
                     email,
+                    age,
+                    gender,
                     date,
                     time,
                     service,
@@ -105,6 +124,8 @@ def load_appointments():
                 "name",
                 "phone",
                 "email",
+                "age",
+                "gender",
                 "date",
                 "time",
                 "service",
@@ -118,6 +139,10 @@ def load_appointments():
                 for row in rows
             ]
 
+
+# ==========================
+# SAVE APPOINTMENTS
+# ==========================
 
 def save_appointments(appointments):
 
@@ -138,6 +163,8 @@ def save_appointments(appointments):
                         name,
                         phone,
                         email,
+                        age,
+                        gender,
                         date,
                         time,
                         service,
@@ -146,8 +173,8 @@ def save_appointments(appointments):
                         "submittedAt"
                     )
                     VALUES (
-                        %s, %s, %s, %s, %s,
-                        %s, %s, %s, %s, %s
+                        %s, %s, %s, %s, %s, %s,
+                        %s, %s, %s, %s, %s, %s
                     )
                     """,
                     (
@@ -155,6 +182,8 @@ def save_appointments(appointments):
                         appointment["name"],
                         appointment["phone"],
                         appointment["email"],
+                        appointment["age"],
+                        appointment["gender"],
                         appointment["date"],
                         appointment["time"],
                         appointment["service"],
@@ -176,6 +205,8 @@ class Appointment(BaseModel):
     name: str
     phone: str
     email: str
+    age: str
+    gender: str
     date: str
     time: str
     service: str
@@ -238,6 +269,10 @@ def create_appointment(
         "phone": appointment.phone,
 
         "email": appointment.email,
+
+        "age": appointment.age,
+
+        "gender": appointment.gender,
 
         "date": appointment.date,
 

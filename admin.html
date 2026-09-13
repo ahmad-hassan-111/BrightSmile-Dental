@@ -1,11 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BrightSmile Dental Studio | Admin Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
 
     <!-- =========================
-         ADMIN LOGIN PROTECTION
+         LOGIN PROTECTION
     ========================== -->
+
     <script>
         if (
             sessionStorage.getItem("brightSmileAdminLoggedIn") !== "true"
@@ -14,1799 +36,753 @@
         }
     </script>
 
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>BrightSmile Admin Dashboard</title>
-
 
     <!-- =========================
-         FONTS
-    ========================== -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-
-    <!-- =========================
-         FONT AWESOME
-    ========================== -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    >
-
-
-    <!-- =========================
-         ADMIN CSS
-    ========================== -->
-    <link
-        rel="stylesheet"
-        href="css/admin.css"
-    >
-
-</head>
-
-
-<body>
-
-
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
-<header>
-
-    <div class="logo">
-
-        <span class="admin-logo-icon">
-            <i class="fa-solid fa-tooth"></i>
-        </span>
-
-        <span class="admin-logo-text">
-            BrightSmile
-            <small>Admin</small>
-        </span>
-
-    </div>
-
-
-    <div class="header-buttons">
-
-        <a
-            href="index.html"
-            class="back-btn"
-        >
-            <i class="fa-solid fa-arrow-left"></i>
-            <span>Back to Website</span>
-        </a>
-
-
-        <button
-            class="logout-btn"
-            onclick="logoutAdmin()"
-        >
-            <i class="fa-solid fa-right-from-bracket"></i>
-            <span>Logout</span>
-        </button>
-
-    </div>
-
-</header>
-
-
-
-<!-- =====================================================
-     DASHBOARD
-===================================================== -->
-
-<main class="dashboard">
-
-
-    <!-- =========================
-         TITLE
+         HEADER
     ========================== -->
 
-    <div class="dashboard-title">
+    <header class="admin-header">
 
-        <div class="dashboard-eyebrow">
+        <div class="header-left">
 
-            <span></span>
+            <a href="index.html" class="admin-logo">
 
-            BrightSmile Dental Studio
+                <div class="logo-mark">
+                    <i class="fas fa-tooth"></i>
+                </div>
+
+                <div>
+                    <strong>BrightSmile</strong>
+                    <span>Dental Studio</span>
+                </div>
+
+            </a>
+
+
+            <div class="dashboard-title">
+
+                <span>ADMIN</span>
+
+                <h1>Dashboard</h1>
+
+            </div>
 
         </div>
 
 
-        <h1>
-            Appointment Dashboard
-        </h1>
-
-
-        <p>
-            View and manage appointment requests submitted through the BrightSmile website.
-        </p>
-
-    </div>
-
-
-
-    <!-- =========================
-         ERROR
-    ========================== -->
-
-    <div
-        id="errorMessage"
-        class="error-message"
-    ></div>
-
-
-
-    <!-- =================================================
-         STATISTICS
-    ================================================== -->
-
-    <div class="stats">
-
-
-        <!-- TOTAL -->
-
-        <div class="stat-card">
-
-            <div class="stat-card-top">
-
-                <div class="stat-icon">
-                    <i class="fa-solid fa-calendar-check"></i>
-                </div>
-
-                <span class="stat-label">
-                    OVERVIEW
-                </span>
-
-            </div>
-
-
-            <h2 id="totalAppointments">
-                0
-            </h2>
-
-
-            <p>
-                Total Appointments
-            </p>
-
-        </div>
-
-
-
-        <!-- TODAY -->
-
-        <div class="stat-card">
-
-            <div class="stat-card-top">
-
-                <div class="stat-icon">
-                    <i class="fa-solid fa-clock"></i>
-                </div>
-
-                <span class="stat-label">
-                    TODAY
-                </span>
-
-            </div>
-
-
-            <h2 id="todayAppointments">
-                0
-            </h2>
-
-
-            <p>
-                Today's Appointments
-            </p>
-
-        </div>
-
-
-
-        <!-- PATIENTS -->
-
-        <div class="stat-card">
-
-            <div class="stat-card-top">
-
-                <div class="stat-icon">
-                    <i class="fa-solid fa-users"></i>
-                </div>
-
-                <span class="stat-label">
-                    PATIENTS
-                </span>
-
-            </div>
-
-
-            <h2 id="totalPatients">
-                0
-            </h2>
-
-
-            <p>
-                Total Patients
-            </p>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- =================================================
-         APPOINTMENTS
-    ================================================== -->
-
-    <div class="appointments">
-
-
-        <!-- =========================
-             APPOINTMENTS HEADER
-        ========================== -->
-
-        <div class="appointments-header">
-
-
-            <div class="appointments-heading">
-
-                <span class="section-kicker">
-                    MANAGEMENT
-                </span>
-
-
-                <h2>
-                    Appointment Requests
-                </h2>
-
-
-                <p>
-                    Review and manage your latest patient requests.
-                </p>
-
-
-
-                <!-- FILTERS -->
-
-                <div class="appointment-filters">
-
-                    <button
-                        class="filter-btn active"
-                        onclick="filterAppointments('All', this)"
-                    >
-                        All
-                    </button>
-
-
-                    <button
-                        class="filter-btn"
-                        onclick="filterAppointments('Pending', this)"
-                    >
-                        Pending
-                    </button>
-
-
-                    <button
-                        class="filter-btn"
-                        onclick="filterAppointments('Confirmed', this)"
-                    >
-                        Confirmed
-                    </button>
-
-
-                    <button
-                        class="filter-btn"
-                        onclick="filterAppointments('Completed', this)"
-                    >
-                        Completed
-                    </button>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- CLEAR ALL -->
+        <div class="header-actions">
 
             <button
-                class="clear-btn"
-                id="clearAppointments"
+                class="refresh-btn"
+                id="refresh-btn"
+                type="button"
             >
+                <i class="fas fa-rotate"></i>
+                <span>Refresh</span>
+            </button>
 
-                <i class="fa-solid fa-trash"></i>
 
-                <span>
-                    Clear All
-                </span>
+            <a
+                href="index.html"
+                class="website-btn"
+            >
+                <i class="fas fa-arrow-up-right-from-square"></i>
+                <span>Website</span>
+            </a>
 
+
+            <button
+                class="logout-btn"
+                id="logout-btn"
+                type="button"
+            >
+                <i class="fas fa-right-from-bracket"></i>
+                <span>Logout</span>
             </button>
 
         </div>
 
-
-
-        <!-- =========================
-             APPOINTMENT TABLE
-        ========================== -->
-
-        <div id="appointmentTable">
-
-            <div class="loading">
-
-                <i class="fa-solid fa-spinner fa-spin"></i>
-
-                <p>
-                    Loading appointments...
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</main>
+    </header>
 
 
 
-<!-- =====================================================
-     APPOINTMENT DETAILS MODAL
-===================================================== -->
+    <!-- =========================
+         MAIN
+    ========================== -->
 
-<div
-    id="appointmentModal"
-    class="appointment-modal"
-    aria-hidden="true"
->
+    <main class="admin-main">
 
+        <!-- Welcome -->
 
-    <!-- BACKDROP -->
-
-    <div
-        class="appointment-modal-backdrop"
-        onclick="closeAppointmentDetails()"
-    ></div>
-
-
-
-    <!-- MODAL -->
-
-    <div
-        class="appointment-modal-card"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="appointmentModalTitle"
-    >
-
-
-        <!-- =========================
-             MODAL HEADER
-        ========================== -->
-
-        <div class="appointment-modal-header">
-
+        <section class="dashboard-welcome">
 
             <div>
 
-                <span class="modal-kicker">
-                    APPOINTMENT DETAILS
-                </span>
+                <p class="eyebrow">
+                    BrightSmile Dental Studio
+                </p>
 
-
-                <h2 id="appointmentModalTitle">
-                    Patient Appointment
+                <h2>
+                    Appointment Overview
                 </h2>
+
+                <p class="welcome-text">
+                    Manage your clinic appointments, patients and booking status
+                    from one place.
+                </p>
 
             </div>
 
 
-            <button
-                type="button"
-                class="modal-close-btn"
-                onclick="closeAppointmentDetails()"
-                aria-label="Close appointment details"
-            >
+            <div class="live-status">
 
-                <i class="fa-solid fa-xmark"></i>
+                <span class="live-dot"></span>
 
-            </button>
+                <span>
+                    Live Dashboard
+                </span>
 
-        </div>
+            </div>
 
-
-
-        <!-- =========================
-             MODAL CONTENT
-        ========================== -->
-
-        <div
-            id="appointmentDetailsContent"
-            class="appointment-details-content"
-        >
-
-            <!-- JavaScript inserts details here -->
-
-        </div>
+        </section>
 
 
 
         <!-- =========================
-             MODAL FOOTER
+             STAT CARDS
         ========================== -->
 
-        <div class="appointment-modal-footer">
+        <section class="stats-grid">
 
-            <button
-                type="button"
-                class="modal-done-btn"
-                onclick="closeAppointmentDetails()"
-            >
+            <!-- Total -->
 
-                <i class="fa-solid fa-check"></i>
+            <div class="stat-card">
 
-                Close Details
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
 
-            </button>
+                <div class="stat-content">
 
-        </div>
+                    <span>
+                        Total Appointments
+                    </span>
 
-    </div>
+                    <strong id="total-appointments">
+                        0
+                    </strong>
 
-</div>
-
-
-
-<!-- =====================================================
-     SUCCESS MESSAGE
-===================================================== -->
-
-<div
-    id="successMessage"
-    class="success-message"
-></div>
-
-
-
-<!-- =====================================================
-     JAVASCRIPT
-===================================================== -->
-
-<script>
-
-
-/* =====================================================
-   BACKEND URL
-===================================================== */
-
-const API_URL =
-    "https://bright-smile-dental-smoky.vercel.app/api";
-
-
-
-/* =====================================================
-   APPOINTMENT DATA
-===================================================== */
-
-let appointments = [];
-
-let currentFilter = "All";
-
-
-
-/* =====================================================
-   LOAD DASHBOARD
-===================================================== */
-
-async function loadDashboard() {
-
-    try {
-
-        const response =
-            await fetch(
-                `${API_URL}/appointments`
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Could not load appointments."
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        appointments =
-            data.appointments || [];
-
-
-        updateStatistics();
-
-        displayAppointments();
-
-        hideError();
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Load appointments error:",
-            error
-        );
-
-
-        showError(
-            "Could not connect to the appointment server. Make sure the FastAPI backend is running."
-        );
-
-
-        appointments = [];
-
-
-        updateStatistics();
-
-        displayAppointments();
-
-    }
-
-}
-
-
-
-/* =====================================================
-   UPDATE STATISTICS
-===================================================== */
-
-function updateStatistics() {
-
-    const totalAppointments =
-        document.getElementById(
-            "totalAppointments"
-        );
-
-
-    const todayAppointments =
-        document.getElementById(
-            "todayAppointments"
-        );
-
-
-    const totalPatients =
-        document.getElementById(
-            "totalPatients"
-        );
-
-
-    /* Total appointments */
-
-    totalAppointments.textContent =
-        appointments.length;
-
-
-
-    /* Today's appointments */
-
-    const today =
-        new Date()
-            .toISOString()
-            .split("T")[0];
-
-
-    const todayCount =
-        appointments.filter(
-            appointment => {
-
-                return appointment.date === today;
-
-            }
-        ).length;
-
-
-    todayAppointments.textContent =
-        todayCount;
-
-
-
-    /* Unique patients */
-
-    const uniquePatients =
-        new Set(
-            appointments.map(
-                appointment =>
-                    appointment.phone
-            )
-        );
-
-
-    totalPatients.textContent =
-        uniquePatients.size;
-
-}
-
-
-
-/* =====================================================
-   DISPLAY APPOINTMENTS
-===================================================== */
-
-function displayAppointments() {
-
-    const tableContainer =
-        document.getElementById(
-            "appointmentTable"
-        );
-
-
-    let filteredAppointments =
-        appointments;
-
-
-
-    /* =========================
-       APPLY FILTER
-    ========================== */
-
-    if (currentFilter !== "All") {
-
-        filteredAppointments =
-            appointments.filter(
-                appointment => {
-
-                    return (
-                        appointment.status ||
-                        "Pending"
-                    ) === currentFilter;
-
-                }
-            );
-
-    }
-
-
-
-    /* =========================
-       EMPTY STATE
-    ========================== */
-
-    if (
-        filteredAppointments.length === 0
-    ) {
-
-        tableContainer.innerHTML = `
-
-            <div class="empty">
-
-                <div class="empty-icon">
-
-                    <i class="fa-solid fa-calendar-xmark"></i>
+                    <small>
+                        All bookings
+                    </small>
 
                 </div>
 
+            </div>
+
+
+
+            <!-- Pending -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon pending-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+
+                <div class="stat-content">
+
+                    <span>
+                        Pending
+                    </span>
+
+                    <strong id="pending-count">
+                        0
+                    </strong>
+
+                    <small>
+                        Need attention
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Confirmed -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon confirmed-icon">
+                    <i class="fas fa-circle-check"></i>
+                </div>
+
+                <div class="stat-content">
+
+                    <span>
+                        Confirmed
+                    </span>
+
+                    <strong id="confirmed-count">
+                        0
+                    </strong>
+
+                    <small>
+                        Scheduled visits
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Completed -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon completed-icon">
+                    <i class="fas fa-tooth"></i>
+                </div>
+
+                <div class="stat-content">
+
+                    <span>
+                        Completed
+                    </span>
+
+                    <strong id="completed-count">
+                        0
+                    </strong>
+
+                    <small>
+                        Finished visits
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Today -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon today-icon">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+
+                <div class="stat-content">
+
+                    <span>
+                        Today
+                    </span>
+
+                    <strong id="today-count">
+                        0
+                    </strong>
+
+                    <small>
+                        Today's appointments
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             APPOINTMENTS
+        ========================== -->
+
+        <section class="appointments-section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        Patient bookings
+                    </p>
+
+                    <h2>
+                        Appointments
+                    </h2>
+
+                    <p>
+                        View and manage all appointment requests.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="clear-all-btn"
+                    id="clear-all-btn"
+                    type="button"
+                >
+
+                    <i class="fas fa-trash"></i>
+
+                    Clear All
+
+                </button>
+
+            </div>
+
+
+
+            <!-- CONTROLS -->
+
+            <div class="appointment-controls">
+
+                <div class="search-box">
+
+                    <i class="fas fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        id="search-input"
+                        placeholder="Search patient, phone, email or service..."
+                    >
+
+                    <button
+                        id="clear-search"
+                        class="clear-search"
+                        type="button"
+                    >
+
+                        <i class="fas fa-xmark"></i>
+
+                    </button>
+
+                </div>
+
+
+                <div class="filter-buttons">
+
+                    <button
+                        class="filter-btn active"
+                        data-filter="All"
+                        type="button"
+                    >
+                        All
+                        <span id="all-filter-count">0</span>
+                    </button>
+
+
+                    <button
+                        class="filter-btn"
+                        data-filter="Pending"
+                        type="button"
+                    >
+                        Pending
+                        <span id="pending-filter-count">0</span>
+                    </button>
+
+
+                    <button
+                        class="filter-btn"
+                        data-filter="Confirmed"
+                        type="button"
+                    >
+                        Confirmed
+                        <span id="confirmed-filter-count">0</span>
+                    </button>
+
+
+                    <button
+                        class="filter-btn"
+                        data-filter="Completed"
+                        type="button"
+                    >
+                        Completed
+                        <span id="completed-filter-count">0</span>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- MESSAGE -->
+
+            <div id="message-area"></div>
+
+
+
+            <!-- TABLE -->
+
+            <div class="table-wrapper">
+
+                <table class="appointments-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Patient</th>
+                            <th>Contact</th>
+                            <th>Date & Time</th>
+                            <th>Service</th>
+                            <th>Status</th>
+                            <th>Submitted</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="appointments-body">
+
+                        <tr>
+
+                            <td
+                                colspan="7"
+                                class="loading-cell"
+                            >
+
+                                <div class="loading-spinner"></div>
+
+                                <span>
+                                    Loading appointments...
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+
+            <!-- EMPTY STATE -->
+
+            <div
+                class="empty-state"
+                id="empty-state"
+            >
+
+                <div class="empty-icon">
+                    <i class="fas fa-calendar-xmark"></i>
+                </div>
 
                 <h3>
                     No appointments found
                 </h3>
 
-
                 <p>
-                    Appointment requests will appear here.
+                    There are no appointments matching your current search or filter.
                 </p>
 
             </div>
 
-        `;
+        </section>
 
-        return;
-
-    }
+    </main>
 
 
 
-    /* =========================
-       BUILD TABLE
-    ========================== */
+    <!-- =========================
+         DETAILS MODAL
+    ========================== -->
 
-    let tableHTML = `
+    <div
+        class="modal-overlay"
+        id="details-modal"
+    >
 
-        <div class="table-wrapper">
+        <div class="details-modal">
 
-            <table>
+            <button
+                class="modal-close"
+                id="modal-close"
+                type="button"
+            >
 
-                <thead>
+                <i class="fas fa-xmark"></i>
 
-                    <tr>
-
-                        <th>#</th>
-
-                        <th>Patient</th>
-
-                        <th>Phone</th>
-
-                        <th>Email</th>
-
-                        <th>Date</th>
-
-                        <th>Time</th>
-
-                        <th>Service</th>
-
-                        <th>Status</th>
-
-                        <th>Action</th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody>
-
-    `;
+            </button>
 
 
 
-    filteredAppointments.forEach(
-        (appointment, index) => {
+            <div class="modal-heading">
 
+                <div class="modal-icon">
+                    <i class="fas fa-user"></i>
+                </div>
 
-        const actualIndex =
-            appointments.indexOf(
-                appointment
-            );
+                <div>
 
+                    <p class="eyebrow">
+                        Appointment Details
+                    </p>
 
-        const status =
-            appointment.status ||
-            "Pending";
+                    <h2 id="modal-patient-name">
+                        Patient
+                    </h2>
 
+                </div>
 
-        let statusClass =
-            "status-pending";
-
-
-        if (
-            status === "Confirmed"
-        ) {
-
-            statusClass =
-                "status-confirmed";
-
-        }
-
-
-        if (
-            status === "Completed"
-        ) {
-
-            statusClass =
-                "status-completed";
-
-        }
+            </div>
 
 
 
-        tableHTML += `
+            <!-- =========================
+                 PATIENT DETAILS
+            ========================== -->
 
-            <tr>
+            <div class="modal-grid">
 
-                <!-- NUMBER -->
 
-                <td>
+                <!-- AGE -->
 
-                    <span class="row-number">
+                <div class="detail-box">
 
-                        ${index + 1}
-
+                    <span>
+                        Age
                     </span>
 
-                </td>
-
-
-
-                <!-- PATIENT -->
-
-                <td>
-
-                    <strong class="patient-name">
-
-                        ${escapeHTML(
-                            appointment.name || "-"
-                        )}
-
+                    <strong id="modal-age">
+                        —
                     </strong>
 
-                </td>
+                </div>
+
+
+
+                <!-- GENDER -->
+
+                <div class="detail-box">
+
+                    <span>
+                        Gender
+                    </span>
+
+                    <strong id="modal-gender">
+                        —
+                    </strong>
+
+                </div>
 
 
 
                 <!-- PHONE -->
 
-                <td>
+                <div class="detail-box">
 
-                    ${escapeHTML(
-                        appointment.phone || "-"
-                    )}
+                    <span>
+                        Phone
+                    </span>
 
-                </td>
+                    <strong id="modal-phone">
+                        —
+                    </strong>
+
+                </div>
 
 
 
                 <!-- EMAIL -->
 
-                <td>
+                <div class="detail-box">
 
-                    ${escapeHTML(
-                        appointment.email || "-"
-                    )}
+                    <span>
+                        Email
+                    </span>
 
-                </td>
+                    <strong id="modal-email-address">
+                        —
+                    </strong>
+
+                </div>
 
 
 
                 <!-- DATE -->
 
-                <td>
+                <div class="detail-box">
 
-                    ${escapeHTML(
-                        appointment.date || "-"
-                    )}
+                    <span>
+                        Date
+                    </span>
 
-                </td>
+                    <strong id="modal-date">
+                        —
+                    </strong>
+
+                </div>
 
 
 
                 <!-- TIME -->
 
-                <td>
+                <div class="detail-box">
 
-                    ${escapeHTML(
-                        appointment.time || "-"
-                    )}
+                    <span>
+                        Time
+                    </span>
 
-                </td>
+                    <strong id="modal-time">
+                        —
+                    </strong>
+
+                </div>
 
 
 
                 <!-- SERVICE -->
 
-                <td>
+                <div class="detail-box">
 
-                    <span class="service-name">
-
-                        ${escapeHTML(
-                            appointment.service || "-"
-                        )}
-
+                    <span>
+                        Service
                     </span>
 
-                </td>
+                    <strong id="modal-service">
+                        —
+                    </strong>
+
+                </div>
 
 
 
                 <!-- STATUS -->
 
-                <td>
+                <div class="detail-box">
 
-                    <select
-                        class="status-select ${statusClass}"
-                        onchange="
-                            changeStatus(
-                                ${actualIndex},
-                                this.value,
-                                this
-                            )
-                        "
-                    >
+                    <span>
+                        Status
+                    </span>
 
-                        <option
-                            value="Pending"
-                            ${
-                                status === "Pending"
-                                    ? "selected"
-                                    : ""
-                            }
-                        >
-                            Pending
-                        </option>
+                    <strong id="modal-status">
+                        —
+                    </strong>
 
-
-                        <option
-                            value="Confirmed"
-                            ${
-                                status === "Confirmed"
-                                    ? "selected"
-                                    : ""
-                            }
-                        >
-                            Confirmed
-                        </option>
-
-
-                        <option
-                            value="Completed"
-                            ${
-                                status === "Completed"
-                                    ? "selected"
-                                    : ""
-                            }
-                        >
-                            Completed
-                        </option>
-
-                    </select>
-
-                </td>
-
-
-
-                <!-- VIEW DETAILS -->
-
-                <td>
-
-                    <button
-                        type="button"
-                        class="view-details-btn"
-                        onclick="openAppointmentDetails(${actualIndex})"
-                    >
-
-                        <i class="fa-solid fa-eye"></i>
-
-                        <span>
-                            View Details
-                        </span>
-
-                    </button>
-
-                </td>
-
-            </tr>
-
-        `;
-
-    });
-
-
-
-    tableHTML += `
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    `;
-
-
-
-    tableContainer.innerHTML =
-        tableHTML;
-
-}
-
-
-
-/* =====================================================
-   FILTER APPOINTMENTS
-===================================================== */
-
-function filterAppointments(
-    filter,
-    button
-) {
-
-    currentFilter =
-        filter;
-
-
-    document
-        .querySelectorAll(
-            ".filter-btn"
-        )
-        .forEach(btn => {
-
-            btn.classList.remove(
-                "active"
-            );
-
-        });
-
-
-    if (button) {
-
-        button.classList.add(
-            "active"
-        );
-
-    }
-
-
-    displayAppointments();
-
-}
-
-
-
-/* =====================================================
-   OPEN APPOINTMENT DETAILS
-===================================================== */
-
-function openAppointmentDetails(index) {
-
-    const appointment =
-        appointments[index];
-
-
-    if (!appointment) {
-
-        return;
-
-    }
-
-
-
-    const modal =
-        document.getElementById(
-            "appointmentModal"
-        );
-
-
-    const content =
-        document.getElementById(
-            "appointmentDetailsContent"
-        );
-
-
-
-    const status =
-        appointment.status ||
-        "Pending";
-
-
-
-    let statusClass =
-        "details-status-pending";
-
-
-    if (
-        status === "Confirmed"
-    ) {
-
-        statusClass =
-            "details-status-confirmed";
-
-    }
-
-
-    if (
-        status === "Completed"
-    ) {
-
-        statusClass =
-            "details-status-completed";
-
-    }
-
-
-
-    /*
-       The backend uses:
-       appointment.message
-
-       We also safely handle an empty message.
-    */
-
-    const message =
-        appointment.message &&
-        String(
-            appointment.message
-        ).trim()
-            ? appointment.message
-            : "No additional message was provided.";
-
-
-
-    content.innerHTML = `
-
-        <!-- PATIENT -->
-
-        <div class="details-patient">
-
-            <div class="details-patient-icon">
-
-                <i class="fa-solid fa-user"></i>
+                </div>
 
             </div>
 
 
-            <div>
+
+            <!-- =========================
+                 MESSAGE
+            ========================== -->
+
+            <div class="message-box">
 
                 <span>
-                    PATIENT
+                    Patient Message
                 </span>
 
-                <strong>
-                    ${escapeHTML(
-                        appointment.name || "-"
-                    )}
-                </strong>
+                <p id="modal-message">
+                    No message provided.
+                </p>
+
+            </div>
+
+
+
+            <!-- =========================
+                 MODAL ACTIONS
+            ========================== -->
+
+            <div class="modal-actions">
+
+                <a
+                    href="#"
+                    id="modal-email"
+                    class="modal-action-btn email-btn"
+                >
+
+                    <i class="fas fa-envelope"></i>
+
+                    Email Patient
+
+                </a>
 
             </div>
 
         </div>
 
+    </div>
 
 
-        <!-- INFORMATION GRID -->
 
-        <div class="details-grid">
+    <!-- =========================
+         CONFIRM MODAL
+    ========================== -->
 
+    <div
+        class="modal-overlay"
+        id="confirm-modal"
+    >
 
-            <!-- PHONE -->
+        <div class="confirm-modal">
 
-            <div class="detail-item">
-
-                <div class="detail-icon">
-
-                    <i class="fa-solid fa-phone"></i>
-
-                </div>
-
-
-                <div>
-
-                    <span>
-                        PHONE
-                    </span>
-
-                    <strong>
-                        ${escapeHTML(
-                            appointment.phone || "-"
-                        )}
-                    </strong>
-
-                </div>
-
+            <div class="confirm-icon">
+                <i class="fas fa-triangle-exclamation"></i>
             </div>
 
 
+            <h2>
+                Clear all appointments?
+            </h2>
 
-            <!-- EMAIL -->
 
-            <div class="detail-item">
+            <p>
+                This will permanently remove all appointments from the dashboard.
+                This action cannot be undone.
+            </p>
 
-                <div class="detail-icon">
 
-                    <i class="fa-solid fa-envelope"></i>
+            <div class="confirm-actions">
 
-                </div>
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    id="cancel-clear"
+                >
+                    Cancel
+                </button>
 
 
-                <div>
+                <button
+                    type="button"
+                    class="danger-btn"
+                    id="confirm-clear"
+                >
 
-                    <span>
-                        EMAIL
-                    </span>
+                    <i class="fas fa-trash"></i>
 
-                    <strong class="detail-value-break">
+                    Clear Everything
 
-                        ${escapeHTML(
-                            appointment.email || "-"
-                        )}
-
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- DATE -->
-
-            <div class="detail-item">
-
-                <div class="detail-icon">
-
-                    <i class="fa-solid fa-calendar-days"></i>
-
-                </div>
-
-
-                <div>
-
-                    <span>
-                        PREFERRED DATE
-                    </span>
-
-                    <strong>
-                        ${escapeHTML(
-                            appointment.date || "-"
-                        )}
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- TIME -->
-
-            <div class="detail-item">
-
-                <div class="detail-icon">
-
-                    <i class="fa-solid fa-clock"></i>
-
-                </div>
-
-
-                <div>
-
-                    <span>
-                        PREFERRED TIME
-                    </span>
-
-                    <strong>
-                        ${escapeHTML(
-                            appointment.time || "-"
-                        )}
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- SERVICE -->
-
-            <div class="detail-item">
-
-                <div class="detail-icon">
-
-                    <i class="fa-solid fa-tooth"></i>
-
-                </div>
-
-
-                <div>
-
-                    <span>
-                        SERVICE
-                    </span>
-
-                    <strong>
-                        ${escapeHTML(
-                            appointment.service || "-"
-                        )}
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- STATUS -->
-
-            <div class="detail-item">
-
-                <div class="detail-icon">
-
-                    <i class="fa-solid fa-circle-check"></i>
-
-                </div>
-
-
-                <div>
-
-                    <span>
-                        STATUS
-                    </span>
-
-                    <strong
-                        class="details-status ${statusClass}"
-                    >
-                        ${escapeHTML(status)}
-                    </strong>
-
-                </div>
+                </button>
 
             </div>
 
         </div>
 
+    </div>
 
 
-        <!-- MESSAGE -->
 
-        <div class="appointment-message-box">
+    <!-- =========================
+         ADMIN JAVASCRIPT
+    ========================== -->
 
-            <div class="message-heading">
-
-                <div class="message-icon">
-
-                    <i class="fa-solid fa-message"></i>
-
-                </div>
-
-
-                <div>
-
-                    <span>
-                        PATIENT MESSAGE
-                    </span>
-
-                    <h3>
-                        Additional Notes / Symptoms
-                    </h3>
-
-                </div>
-
-            </div>
-
-
-            <div class="appointment-message-text">
-
-                ${escapeHTML(message)}
-
-            </div>
-
-        </div>
-
-    `;
-
-
-
-    /* =========================
-       SHOW MODAL
-    ========================== */
-
-    modal.classList.add("show");
-
-    modal.setAttribute(
-        "aria-hidden",
-        "false"
-    );
-
-
-    document.body.classList.add(
-        "modal-open"
-    );
-
-}
-
-
-
-/* =====================================================
-   CLOSE APPOINTMENT DETAILS
-===================================================== */
-
-function closeAppointmentDetails() {
-
-    const modal =
-        document.getElementById(
-            "appointmentModal"
-        );
-
-
-    modal.classList.remove(
-        "show"
-    );
-
-
-    modal.setAttribute(
-        "aria-hidden",
-        "true"
-    );
-
-
-    document.body.classList.remove(
-        "modal-open"
-    );
-
-}
-
-
-
-/* =====================================================
-   ESC KEY CLOSES MODAL
-===================================================== */
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if (
-            event.key === "Escape"
-        ) {
-
-            closeAppointmentDetails();
-
-        }
-
-    }
-);
-
-
-
-/* =====================================================
-   CHANGE STATUS
-===================================================== */
-
-async function changeStatus(
-    index,
-    newStatus,
-    selectElement
-) {
-
-    const appointment =
-        appointments[index];
-
-
-    if (!appointment) {
-
-        return;
-
-    }
-
-
-    const oldStatus =
-        appointment.status ||
-        "Pending";
-
-
-    selectElement.disabled =
-        true;
-
-
-    try {
-
-        const response =
-            await fetch(
-                `${API_URL}/appointments/${appointment.id}/status`,
-                {
-                    method: "PATCH",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        status: newStatus
-                    })
-                }
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                data.detail ||
-                "Could not update appointment status."
-            );
-
-        }
-
-
-        appointments[index] =
-            data.appointment;
-
-
-        updateStatistics();
-
-        displayAppointments();
-
-
-        showSuccess(
-            `Appointment status changed to ${newStatus}.`
-        );
-
-    }
-
-
-    catch (error) {
-
-        console.error(
-            "Status update error:",
-            error
-        );
-
-
-        selectElement.value =
-            oldStatus;
-
-
-        showError(
-            "Could not update the appointment status. Make sure the FastAPI backend is running."
-        );
-
-    }
-
-
-    finally {
-
-        selectElement.disabled =
-            false;
-
-    }
-
-}
-
-
-
-/* =====================================================
-   CLEAR ALL APPOINTMENTS
-===================================================== */
-
-document
-    .getElementById(
-        "clearAppointments"
-    )
-    .addEventListener(
-        "click",
-        async () => {
-
-
-        if (
-            appointments.length === 0
-        ) {
-
-            alert(
-                "There are no appointments to clear."
-            );
-
-            return;
-
-        }
-
-
-        const confirmed =
-            confirm(
-                "Are you sure you want to delete ALL appointments?"
-            );
-
-
-        if (!confirmed) {
-
-            return;
-
-        }
-
-
-        try {
-
-            const response =
-                await fetch(
-                    `${API_URL}/appointments`,
-                    {
-                        method: "DELETE"
-                    }
-                );
-
-
-            const data =
-                await response.json();
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    data.detail ||
-                    "Could not delete appointments."
-                );
-
-            }
-
-
-            appointments = [];
-
-
-            updateStatistics();
-
-            displayAppointments();
-
-
-            showSuccess(
-                "All appointments have been deleted."
-            );
-
-        }
-
-
-        catch (error) {
-
-            console.error(
-                "Delete all error:",
-                error
-            );
-
-
-            showError(
-                "Could not delete appointments from the server."
-            );
-
-        }
-
-    }
-);
-
-
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
-
-function escapeHTML(value) {
-
-    return String(value)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-
-/* =====================================================
-   SHOW ERROR
-===================================================== */
-
-function showError(message) {
-
-    const errorElement =
-        document.getElementById(
-            "errorMessage"
-        );
-
-
-    errorElement.textContent =
-        message;
-
-
-    errorElement.style.display =
-        "block";
-
-}
-
-
-
-/* =====================================================
-   HIDE ERROR
-===================================================== */
-
-function hideError() {
-
-    const errorElement =
-        document.getElementById(
-            "errorMessage"
-        );
-
-
-    errorElement.style.display =
-        "none";
-
-}
-
-
-
-/* =====================================================
-   SHOW SUCCESS
-===================================================== */
-
-function showSuccess(message) {
-
-    const successElement =
-        document.getElementById(
-            "successMessage"
-        );
-
-
-    successElement.textContent =
-        message;
-
-
-    successElement.classList.add(
-        "show"
-    );
-
-
-    setTimeout(
-        () => {
-
-            successElement.classList.remove(
-                "show"
-            );
-
-        },
-        2500
-    );
-
-}
-
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-function logoutAdmin() {
-
-    sessionStorage.removeItem(
-        "brightSmileAdminLoggedIn"
-    );
-
-
-    window.location.href =
-        "login.html";
-
-}
-
-
-
-/* =====================================================
-   START DASHBOARD
-===================================================== */
-
-loadDashboard();
-
-</script>
-
+    <script src="js/dashboard.js"></script>
 
 </body>
-
 </html>

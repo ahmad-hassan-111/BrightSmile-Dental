@@ -4519,3 +4519,208 @@ body {
         max-width: 100%;
     }
 }
+/* =========================================================
+   PREMIUM DOCTOR HORIZONTAL SCROLL
+   ========================================================= */
+
+.doctor-grid {
+    display: flex;
+    gap: 28px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding: 8px 4px 25px;
+
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: thin;
+    scrollbar-color: #b4874b transparent;
+}
+
+/* Keep every card the same size */
+.doctor-card {
+    flex: 0 0 350px;
+
+    scroll-snap-align: start;
+}
+
+/* Premium scrollbar */
+.doctor-grid::-webkit-scrollbar {
+    height: 5px;
+}
+
+.doctor-grid::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.doctor-grid::-webkit-scrollbar-thumb {
+    background: #b4874b;
+    border-radius: 999px;
+}
+
+.doctor-grid::-webkit-scrollbar-thumb:hover {
+    background: #123f38;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 992px) {
+
+    .doctor-grid {
+        display: flex;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        gap: 22px;
+
+        scroll-snap-type: x mandatory;
+    }
+
+    .doctor-card {
+        flex: 0 0 330px;
+
+        scroll-snap-align: start;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .doctor-grid {
+        gap: 16px;
+
+        padding-left: 4px;
+        padding-right: 20px;
+
+        scroll-snap-type: x mandatory;
+
+        scrollbar-width: none;
+    }
+
+    .doctor-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .doctor-card {
+        flex: 0 0 82vw;
+
+        max-width: 340px;
+
+        scroll-snap-align: center;
+    }
+
+    .doctor-card img {
+        height: 290px;
+    }
+
+    .doctor-info {
+        padding: 24px 20px 26px;
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+    .doctor-card {
+        flex: 0 0 86vw;
+    }
+
+    .doctor-card img {
+        height: 270px;
+    }
+}
+/* =========================================================
+   DOCTOR CAROUSEL ARROWS
+   ========================================================= */
+
+.doctor-carousel {
+    position: relative;
+    width: 100%;
+}
+
+.doctor-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 48px;
+    height: 48px;
+
+    border: 1px solid #b4874b;
+    border-radius: 50%;
+
+    background: #f7f5ef;
+    color: #b4874b;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    z-index: 10;
+
+    font-size: 16px;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+    transition: all 0.3s ease;
+}
+
+.doctor-arrow:hover {
+    background: #123f38;
+    color: white;
+    border-color: #123f38;
+}
+
+.doctor-prev {
+    left: -24px;
+}
+
+.doctor-next {
+    right: -24px;
+}
+
+/* Keep arrows visible on tablets */
+@media (max-width: 992px) {
+    .doctor-prev {
+        left: -10px;
+    }
+
+    .doctor-next {
+        right: -10px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .doctor-arrow {
+        width: 42px;
+        height: 42px;
+        font-size: 14px;
+        background: rgba(247, 245, 239, 0.95);
+    }
+
+    .doctor-prev {
+        left: 4px;
+    }
+
+    .doctor-next {
+        right: 4px;
+    }
+}

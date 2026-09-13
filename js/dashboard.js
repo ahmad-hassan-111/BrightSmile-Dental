@@ -1,45 +1,222 @@
 // =====================================================
+// BRIGHTSMILE ADMIN DASHBOARD
+// =====================================================
+
+
+// =====================================================
 // BACKEND URL
 // =====================================================
 
-
-const API_URL = "https://bright-smile-dental-smoky.vercel.app/api";
+const API_URL =
+    "https://bright-smile-dental-smoky.vercel.app/api/appointments";
 
 
 // =====================================================
-// APPOINTMENT DATA
+// DATA
 // =====================================================
 
 let appointments = [];
 
 let currentFilter = "All";
 
+let currentSearch = "";
+
+let currentModalAppointment = null;
+
 
 // =====================================================
-// LOAD DASHBOARD
+// ELEMENTS
 // =====================================================
 
-async function loadDashboard() {
+const appointmentsBody =
+    document.getElementById("appointments-body");
+
+const emptyState =
+    document.getElementById("empty-state");
+
+const searchInput =
+    document.getElementById("search-input");
+
+const clearSearch =
+    document.getElementById("clear-search");
+
+const refreshBtn =
+    document.getElementById("refresh-btn");
+
+const logoutBtn =
+    document.getElementById("logout-btn");
+
+const clearAllBtn =
+    document.getElementById("clear-all-btn");
+
+const messageArea =
+    document.getElementById("message-area");
+
+const detailsModal =
+    document.getElementById("details-modal");
+
+const confirmModal =
+    document.getElementById("confirm-modal");
+
+
+// =====================================================
+// ESCAPE HTML
+// =====================================================
+
+function escapeHTML(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+// =====================================================
+// FORMAT DATE
+// =====================================================
+
+function formatDate(dateString) {
+
+    if (!dateString) {
+        return "—";
+    }
+
+    const date =
+        new Date(dateString);
+
+    if (isNaN(date.getTime())) {
+        return escapeHTML(dateString);
+    }
+
+    return date.toLocaleDateString(
+        "en-US",
+        {
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+        }
+    );
+}
+
+
+// =====================================================
+// FORMAT SUBMITTED TIME
+// =====================================================
+
+function formatSubmitted(value) {
+
+    if (!value) {
+        return "—";
+    }
+
+    const date =
+        new Date(value);
+
+    if (isNaN(date.getTime())) {
+        return escapeHTML(value);
+    }
+
+    return date.toLocaleString(
+        "en-US",
+        {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+            hour: "numeric",
+            minute: "2-digit"
+        }
+    );
+}
+
+
+// =====================================================
+// TODAY CHECK
+// =====================================================
+
+function isToday(dateString) {
+
+    if (!dateString) {
+        return false;
+    }
+
+    const today =
+        new Date();
+
+    const appointmentDate =
+        new Date(dateString);
+
+    return (
+        today.getFullYear() ===
+            appointmentDate.getFullYear() &&
+
+        today.getMonth() ===
+            appointmentDate.getMonth() &&
+
+        today.getDate() ===
+            appointmentDate.getDate()
+    );
+}
+
+
+// =====================================================
+// LOAD APPOINTMENTS
+// =====================================================
+
+async function loadAppointments() {
+
+    if (refreshBtn) {
+        refreshBtn.classList.add("loading");
+    }
 
     try {
 
-        const response = await fetch(
-            `${API_URL}/appointments`
-        );
+        const response =
+            await fetch(API_URL);
 
         if (!response.ok) {
-            throw new Error("Could not load appointments.");
+
+            throw new Error(
+                `HTTP ${response.status}`
+            );
+
         }
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
-        appointments = data.appointments || [];
+        appointments =
+            Array.isArray(data.appointments)
+                ? data.appointments
+                : [];
 
-        updateStatistics();
 
-        displayAppointments();
+        console.log(
+            "Appointments loaded:",
+            appointments
+        );
 
-        hideError();
+
+        updateStats();
+
+        renderAppointments();
+
+
+        showMessage(
+            "Appointments refreshed successfully.",
+            "success",
+            false
+        );
+
 
     } catch (error) {
 
@@ -48,15 +225,43 @@ async function loadDashboard() {
             error
         );
 
-        showError(
-            "Could not connect to the appointment server. Make sure the FastAPI backend is running."
+
+        appointmentsBody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="7"
+                    class="error-cell"
+                >
+
+                    <i class="fas fa-circle-exclamation"></i>
+
+                    Unable to load appointments.
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        showMessage(
+            "Unable to connect to the appointment server.",
+            "error"
         );
 
-        appointments = [];
 
-        updateStatistics();
+    } finally {
 
-        displayAppointments();
+        if (refreshBtn) {
+
+            refreshBtn.classList.remove(
+                "loading"
+            );
+
+        }
+
     }
 }
 
@@ -65,375 +270,571 @@ async function loadDashboard() {
 // UPDATE STATISTICS
 // =====================================================
 
-function updateStatistics() {
+function updateStats() {
 
-    const totalAppointments =
-        document.getElementById("totalAppointments");
-
-    const todayAppointments =
-        document.getElementById("todayAppointments");
-
-    const totalPatients =
-        document.getElementById("totalPatients");
-
-
-    totalAppointments.textContent =
+    const total =
         appointments.length;
 
 
-    const today =
-        new Date()
-            .toISOString()
-            .split("T")[0];
-
-
-    const todayCount =
+    const pending =
         appointments.filter(
             appointment =>
-                appointment.date === today
+                appointment.status === "Pending"
         ).length;
 
 
-    todayAppointments.textContent =
-        todayCount;
+    const confirmed =
+        appointments.filter(
+            appointment =>
+                appointment.status === "Confirmed"
+        ).length;
 
 
-    const uniquePatients =
-        new Set(
-            appointments.map(
-                appointment =>
-                    appointment.phone
-            )
-        );
+    const completed =
+        appointments.filter(
+            appointment =>
+                appointment.status === "Completed"
+        ).length;
 
 
-    totalPatients.textContent =
-        uniquePatients.size;
-}
+    const today =
+        appointments.filter(
+            appointment =>
+                isToday(appointment.date)
+        ).length;
 
 
-// =====================================================
-// DISPLAY APPOINTMENTS
-// =====================================================
+    const setText = (
+        id,
+        value
+    ) => {
 
-function displayAppointments() {
+        const element =
+            document.getElementById(id);
 
-    const tableContainer =
-        document.getElementById("appointmentTable");
-
-
-    let filteredAppointments =
-        appointments;
-
-
-    if (currentFilter !== "All") {
-
-        filteredAppointments =
-            appointments.filter(
-                appointment =>
-                    (
-                        appointment.status ||
-                        "Pending"
-                    ) === currentFilter
-            );
-    }
-
-
-    if (filteredAppointments.length === 0) {
-
-        tableContainer.innerHTML = `
-
-            <div class="empty">
-
-                <i class="fa-solid fa-calendar-xmark"></i>
-
-                <h3>
-                    No appointments found
-                </h3>
-
-                <p>
-                    Appointment requests will appear here.
-                </p>
-
-            </div>
-
-        `;
-
-        return;
-    }
-
-
-    let tableHTML = `
-
-        <div class="table-wrapper">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>#</th>
-
-                        <th>Patient</th>
-
-                        <th>Phone</th>
-
-                        <th>Email</th>
-
-                        <th>Date</th>
-
-                        <th>Time</th>
-
-                        <th>Service</th>
-
-                        <th>Status</th>
-
-                    
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-    `;
-
-
-    filteredAppointments.forEach(
-        (appointment, index) => {
-
-            const actualIndex =
-                appointments.indexOf(
-                    appointment
-                );
-
-
-            const status =
-                appointment.status ||
-                "Pending";
-
-
-            let statusClass =
-                "status-pending";
-
-
-            if (status === "Confirmed") {
-
-                statusClass =
-                    "status-confirmed";
-            }
-
-
-            if (status === "Completed") {
-
-                statusClass =
-                    "status-completed";
-            }
-
-
-            tableHTML += `
-
-                <tr>
-
-                    <td>
-                        ${index + 1}
-                    </td>
-
-
-                    <td>
-
-                        <strong>
-                            ${escapeHTML(
-                                appointment.name || "-"
-                            )}
-                        </strong>
-
-                    </td>
-
-
-                    <td>
-                        ${escapeHTML(
-                            appointment.phone || "-"
-                        )}
-                    </td>
-
-
-                    <td>
-                        ${escapeHTML(
-                            appointment.email || "-"
-                        )}
-                    </td>
-
-
-                    <td>
-                        ${escapeHTML(
-                            appointment.date || "-"
-                        )}
-                    </td>
-
-
-                    <td>
-                        ${escapeHTML(
-                            appointment.time || "-"
-                        )}
-                    </td>
-
-
-                    <td>
-                        ${escapeHTML(
-                            appointment.service || "-"
-                        )}
-                    </td>
-
-
-                    <td>
-
-                        <select
-                            class="status-select ${statusClass}"
-                            onchange="
-                                changeStatus(
-                                    ${actualIndex},
-                                    this.value,
-                                    this
-                                )
-                            "
-                        >
-
-                            <option
-                                value="Pending"
-                                ${
-                                    status === "Pending"
-                                        ? "selected"
-                                        : ""
-                                }
-                            >
-                                Pending
-                            </option>
-
-
-                            <option
-                                value="Confirmed"
-                                ${
-                                    status === "Confirmed"
-                                        ? "selected"
-                                        : ""
-                                }
-                            >
-                                Confirmed
-                            </option>
-
-
-                            <option
-                                value="Completed"
-                                ${
-                                    status === "Completed"
-                                        ? "selected"
-                                        : ""
-                                }
-                            >
-                                Completed
-                            </option>
-
-                        </select>
-
-                    </td>
-
-
-                    <td>
-
-                       
-
-                    </td>
-
-                </tr>
-
-            `;
+        if (element) {
+            element.textContent = value;
         }
+
+    };
+
+
+    setText(
+        "total-appointments",
+        total
     );
 
 
-    tableHTML += `
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    `;
+    setText(
+        "pending-count",
+        pending
+    );
 
 
-    tableContainer.innerHTML =
-        tableHTML;
+    setText(
+        "confirmed-count",
+        confirmed
+    );
+
+
+    setText(
+        "completed-count",
+        completed
+    );
+
+
+    setText(
+        "today-count",
+        today
+    );
+
+
+    setText(
+        "all-filter-count",
+        total
+    );
+
+
+    setText(
+        "pending-filter-count",
+        pending
+    );
+
+
+    setText(
+        "confirmed-filter-count",
+        confirmed
+    );
+
+
+    setText(
+        "completed-filter-count",
+        completed
+    );
+
 }
 
 
 // =====================================================
-// FILTER APPOINTMENTS
+// FILTER + SEARCH
 // =====================================================
 
-function filterAppointments(
-    filter,
-    button
-) {
+function getFilteredAppointments() {
 
-    currentFilter =
-        filter;
+    return appointments.filter(
+        appointment => {
 
+            const matchesFilter =
+                currentFilter === "All" ||
+                appointment.status === currentFilter;
+
+
+            if (!currentSearch) {
+
+                return matchesFilter;
+
+            }
+
+
+            const searchText =
+                currentSearch.toLowerCase();
+
+
+            const searchableText = [
+
+                appointment.name,
+
+                appointment.phone,
+
+                appointment.email,
+
+                appointment.age,
+
+                appointment.gender,
+
+                appointment.service,
+
+                appointment.date,
+
+                appointment.time,
+
+                appointment.message
+
+            ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
+
+
+            return (
+                matchesFilter &&
+                searchableText.includes(
+                    searchText
+                )
+            );
+
+        }
+    );
+}
+
+
+// =====================================================
+// RENDER TABLE
+// =====================================================
+
+function renderAppointments() {
+
+    const filtered =
+        getFilteredAppointments();
+
+
+    if (!filtered.length) {
+
+        appointmentsBody.innerHTML = "";
+
+        emptyState.classList.add(
+            "show"
+        );
+
+        return;
+
+    }
+
+
+    emptyState.classList.remove(
+        "show"
+    );
+
+
+    appointmentsBody.innerHTML =
+        filtered
+            .map(
+                appointment => {
+
+                    const status =
+                        appointment.status ||
+                        "Pending";
+
+
+                    const statusClass =
+                        status
+                            .toLowerCase()
+                            .replace(
+                                /\s+/g,
+                                "-"
+                            );
+
+
+                    const name =
+                        escapeHTML(
+                            appointment.name ||
+                            "Patient"
+                        );
+
+
+                    const phone =
+                        escapeHTML(
+                            appointment.phone ||
+                            ""
+                        );
+
+
+                    const email =
+                        escapeHTML(
+                            appointment.email ||
+                            ""
+                        );
+
+
+                    const service =
+                        escapeHTML(
+                            appointment.service ||
+                            "—"
+                        );
+
+
+                    const age =
+                        escapeHTML(
+                            appointment.age ||
+                            ""
+                        );
+
+
+                    const gender =
+                        escapeHTML(
+                            appointment.gender ||
+                            ""
+                        );
+
+
+                    const initials =
+                        (
+                            appointment.name ||
+                            "P"
+                        )
+                            .charAt(0)
+                            .toUpperCase();
+
+
+                    return `
+
+                        <tr>
+
+                            <!-- PATIENT -->
+
+                            <td>
+
+                                <div class="patient-cell">
+
+                                    <div class="patient-avatar">
+
+                                        ${escapeHTML(initials)}
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <strong>
+                                            ${name}
+                                        </strong>
+
+                                        <span>
+                                            ${
+                                                age
+                                                    ? `${age} yrs`
+                                                    : "Patient"
+                                            }
+
+                                            ${
+                                                gender
+                                                    ? ` • ${gender}`
+                                                    : ""
+                                            }
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- CONTACT -->
+
+                            <td>
+
+                                <div class="contact-cell">
+
+                                    <span class="contact-phone">
+
+                                        <i class="fas fa-phone"></i>
+
+                                        ${phone || "—"}
+
+                                    </span>
+
+
+                                    <span class="contact-email">
+
+                                        <i class="fas fa-envelope"></i>
+
+                                        ${email || "—"}
+
+                                    </span>
+
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- DATE + TIME -->
+
+                            <td>
+
+                                <div class="date-cell">
+
+                                    <strong>
+
+                                        ${formatDate(
+                                            appointment.date
+                                        )}
+
+                                    </strong>
+
+
+                                    <span>
+
+                                        <i class="far fa-clock"></i>
+
+                                        ${escapeHTML(
+                                            appointment.time ||
+                                            "—"
+                                        )}
+
+                                    </span>
+
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- SERVICE -->
+
+                            <td>
+
+                                <span class="service-badge">
+
+                                    ${service}
+
+                                </span>
+
+                            </td>
+
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                <select
+                                    class="status-select status-${statusClass}"
+                                    data-id="${escapeHTML(
+                                        appointment.id
+                                    )}"
+                                >
+
+                                    <option
+                                        value="Pending"
+                                        ${
+                                            status ===
+                                            "Pending"
+                                                ? "selected"
+                                                : ""
+                                        }
+                                    >
+                                        Pending
+                                    </option>
+
+
+                                    <option
+                                        value="Confirmed"
+                                        ${
+                                            status ===
+                                            "Confirmed"
+                                                ? "selected"
+                                                : ""
+                                        }
+                                    >
+                                        Confirmed
+                                    </option>
+
+
+                                    <option
+                                        value="Completed"
+                                        ${
+                                            status ===
+                                            "Completed"
+                                                ? "selected"
+                                                : ""
+                                        }
+                                    >
+                                        Completed
+                                    </option>
+
+                                </select>
+
+                            </td>
+
+
+
+                            <!-- SUBMITTED -->
+
+                            <td>
+
+                                <span class="submitted-time">
+
+                                    ${formatSubmitted(
+                                        appointment.submittedAt
+                                    )}
+
+                                </span>
+
+                            </td>
+
+
+
+                            <!-- VIEW -->
+
+                            <td>
+
+                                <button
+                                    class="view-btn"
+                                    data-id="${escapeHTML(
+                                        appointment.id
+                                    )}"
+                                    type="button"
+                                >
+
+                                    <i class="fas fa-eye"></i>
+
+                                    View
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+
+    // =================================================
+    // STATUS EVENTS
+    // =================================================
 
     document
-        .querySelectorAll(".filter-btn")
-        .forEach(btn => {
+        .querySelectorAll(".status-select")
+        .forEach(
+            select => {
 
-            btn.classList.remove("active");
+                select.addEventListener(
+                    "change",
+                    () => {
 
-        });
+                        updateStatus(
+                            select.dataset.id,
+                            select.value
+                        );
+
+                    }
+                );
+
+            }
+        );
 
 
-    if (button) {
+    // =================================================
+    // VIEW EVENTS
+    // =================================================
 
-        button.classList.add("active");
+    document
+        .querySelectorAll(".view-btn")
+        .forEach(
+            button => {
 
-    }
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        const appointment =
+                            appointments.find(
+                                item =>
+                                    String(item.id) ===
+                                    String(
+                                        button.dataset.id
+                                    )
+                            );
 
 
-    displayAppointments();
+                        if (appointment) {
+
+                            openDetailsModal(
+                                appointment
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
 }
 
 
 // =====================================================
-// CHANGE STATUS
+// UPDATE STATUS
 // =====================================================
 
-async function changeStatus(
-    index,
-    newStatus,
-    selectElement
+async function updateStatus(
+    id,
+    status
 ) {
-
-    const appointment =
-        appointments[index];
-
-
-    if (!appointment) {
-        return;
-    }
-
-
-    const oldStatus =
-        appointment.status ||
-        "Pending";
-
-
-    selectElement.disabled = true;
-
 
     try {
 
         const response =
             await fetch(
-                `${API_URL}/appointments/${appointment.id}/status`,
+                `${API_URL}/${id}/status`,
                 {
                     method: "PATCH",
 
@@ -443,36 +844,50 @@ async function changeStatus(
                     },
 
                     body: JSON.stringify({
-                        status: newStatus
+                        status: status
                     })
                 }
             );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Status update failed."
+            );
+
+        }
 
 
         const data =
             await response.json();
 
 
-        if (!response.ok) {
-
-            throw new Error(
-                data.detail ||
-                "Could not update appointment status."
+        const appointment =
+            appointments.find(
+                item =>
+                    String(item.id) ===
+                    String(id)
             );
+
+
+        if (appointment) {
+
+            appointment.status =
+                data.appointment?.status ||
+                status;
+
         }
 
 
-        appointments[index] =
-            data.appointment;
+        updateStats();
+
+        renderAppointments();
 
 
-        updateStatistics();
-
-        displayAppointments();
-
-
-        showSuccess(
-            `Appointment status changed to ${newStatus}.`
+        showMessage(
+            `Appointment marked as ${status}.`,
+            "success"
         );
 
 
@@ -484,204 +899,496 @@ async function changeStatus(
         );
 
 
-        selectElement.value =
-            oldStatus;
-
-
-        showError(
-            "Could not update the appointment status. Make sure the FastAPI backend is running."
+        showMessage(
+            "Unable to update appointment status.",
+            "error"
         );
 
-
-    } finally {
-
-        selectElement.disabled =
-            false;
     }
+
 }
 
 
+// =====================================================
+// DETAILS MODAL
+// =====================================================
+
+function openDetailsModal(
+    appointment
+) {
+
+    currentModalAppointment =
+        appointment;
+
+
+    // PATIENT NAME
+
+    document.getElementById(
+        "modal-patient-name"
+    ).textContent =
+        appointment.name ||
+        "Patient";
+
+
+    // =================================================
+    // AGE
+    // =================================================
+
+    document.getElementById(
+        "modal-age"
+    ).textContent =
+        appointment.age ||
+        "—";
+
+
+    // =================================================
+    // GENDER
+    // =================================================
+
+    document.getElementById(
+        "modal-gender"
+    ).textContent =
+        appointment.gender ||
+        "—";
+
+
+    // =================================================
+    // PHONE
+    // =================================================
+
+    document.getElementById(
+        "modal-phone"
+    ).textContent =
+        appointment.phone ||
+        "—";
+
+
+    // =================================================
+    // EMAIL
+    // =================================================
+
+    document.getElementById(
+        "modal-email-address"
+    ).textContent =
+        appointment.email ||
+        "—";
+
+
+    // =================================================
+    // DATE
+    // =================================================
+
+    document.getElementById(
+        "modal-date"
+    ).textContent =
+        formatDate(
+            appointment.date
+        );
+
+
+    // =================================================
+    // TIME
+    // =================================================
+
+    document.getElementById(
+        "modal-time"
+    ).textContent =
+        appointment.time ||
+        "—";
+
+
+    // =================================================
+    // SERVICE
+    // =================================================
+
+    document.getElementById(
+        "modal-service"
+    ).textContent =
+        appointment.service ||
+        "—";
+
+
+    // =================================================
+    // STATUS
+    // =================================================
+
+    document.getElementById(
+        "modal-status"
+    ).textContent =
+        appointment.status ||
+        "Pending";
+
+
+    // =================================================
+    // MESSAGE
+    // =================================================
+
+    document.getElementById(
+        "modal-message"
+    ).textContent =
+        appointment.message ||
+        "No message provided.";
+
+
+    // =================================================
+    // EMAIL ACTION
+    // =================================================
+
+    const emailButton =
+        document.getElementById(
+            "modal-email"
+        );
+
+
+    if (emailButton) {
+
+        if (appointment.email) {
+
+            emailButton.href =
+                `mailto:${appointment.email}`;
+
+            emailButton.style.display =
+                "inline-flex";
+
+        } else {
+
+            emailButton.removeAttribute(
+                "href"
+            );
+
+            emailButton.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    // =================================================
+    // SHOW MODAL
+    // =================================================
+
+    detailsModal.classList.add(
+        "show"
+    );
+
+    document.body.classList.add(
+        "modal-open"
+    );
+
+}
+
+
+// =====================================================
+// CLOSE DETAILS MODAL
+// =====================================================
+
+function closeDetailsModal() {
+
+    if (!detailsModal) {
+        return;
+    }
+
+    detailsModal.classList.remove(
+        "show"
+    );
+
+    document.body.classList.remove(
+        "modal-open"
+    );
+
+    currentModalAppointment =
+        null;
+}
+
+
+// =====================================================
+// OPEN CONFIRM MODAL
+// =====================================================
+
+function openConfirmModal() {
+
+    if (!appointments.length) {
+
+        showMessage(
+            "There are no appointments to clear.",
+            "info"
+        );
+
+        return;
+
+    }
+
+
+    confirmModal.classList.add(
+        "show"
+    );
+
+    document.body.classList.add(
+        "modal-open"
+    );
+
+}
+
+
+// =====================================================
+// CLOSE CONFIRM MODAL
+// =====================================================
+
+function closeConfirmModal() {
+
+    if (!confirmModal) {
+        return;
+    }
+
+    confirmModal.classList.remove(
+        "show"
+    );
+
+    document.body.classList.remove(
+        "modal-open"
+    );
+
+}
 
 
 // =====================================================
 // CLEAR ALL APPOINTMENTS
 // =====================================================
 
-const clearAppointments =
-    document.getElementById("clearAppointments");
+async function clearAllAppointments() {
 
-if (clearAppointments) {
-
-    clearAppointments.addEventListener(
-        "click",
-        async () => {
-
-            if (appointments.length === 0) {
-
-                alert(
-                    "There are no appointments to clear."
-                );
-
-                return;
-            }
+    const confirmButton =
+        document.getElementById(
+            "confirm-clear"
+        );
 
 
-            const confirmed =
-                confirm(
-                    "Are you sure you want to delete ALL appointments?"
-                );
+    confirmButton.disabled =
+        true;
 
 
-            if (!confirmed) {
-                return;
-            }
+    confirmButton.innerHTML =
+        `<i class="fas fa-spinner fa-spin"></i> Clearing...`;
 
 
-            try {
+    try {
 
-                const response =
-                    await fetch(
-                        `${API_URL}/appointments`,
-                        {
-                            method: "DELETE"
-                        }
-                    );
-
-
-                const data =
-                    await response.json();
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        data.detail ||
-                        "Could not delete appointments."
-                    );
+        const response =
+            await fetch(
+                API_URL,
+                {
+                    method: "DELETE"
                 }
+            );
 
 
-                appointments = [];
+        if (!response.ok) {
+
+            throw new Error(
+                "Clear failed."
+            );
+
+        }
 
 
-                updateStatistics();
-
-                displayAppointments();
+        appointments = [];
 
 
-                showSuccess(
-                    "All appointments have been deleted."
-                );
+        updateStats();
+
+        renderAppointments();
+
+        closeConfirmModal();
 
 
-            } catch (error) {
-
-                console.error(
-                    "Delete all error:",
-                    error
-                );
+        showMessage(
+            "All appointments have been cleared.",
+            "success"
+        );
 
 
-                showError(
-                    "Could not delete appointments from the server."
-                );
-            }
+    } catch (error) {
+
+        console.error(
+            "Clear all error:",
+            error
+        );
+
+
+        showMessage(
+            "Unable to clear appointments.",
+            "error"
+        );
+
+
+    } finally {
+
+        confirmButton.disabled =
+            false;
+
+
+        confirmButton.innerHTML =
+            `<i class="fas fa-trash"></i> Clear Everything`;
+
+    }
+
+}
+
+
+// =====================================================
+// MESSAGE
+// =====================================================
+
+function showMessage(
+    message,
+    type = "success",
+    autoHide = true
+) {
+
+    if (!messageArea) {
+        return;
+    }
+
+
+    messageArea.innerHTML = `
+
+        <div class="dashboard-message ${type}">
+
+            <i class="${
+                type === "success"
+                    ? "fas fa-circle-check"
+                    : type === "error"
+                    ? "fas fa-circle-exclamation"
+                    : "fas fa-circle-info"
+            }"></i>
+
+            <span>
+
+                ${escapeHTML(message)}
+
+            </span>
+
+        </div>
+
+    `;
+
+
+    if (autoHide) {
+
+        setTimeout(
+            () => {
+
+                messageArea.innerHTML = "";
+
+            },
+            3500
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// FILTER BUTTONS
+// =====================================================
+
+document
+    .querySelectorAll(".filter-btn")
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    document
+                        .querySelectorAll(
+                            ".filter-btn"
+                        )
+                        .forEach(
+                            btn =>
+                                btn.classList.remove(
+                                    "active"
+                                )
+                        );
+
+
+                    button.classList.add(
+                        "active"
+                    );
+
+
+                    currentFilter =
+                        button.dataset.filter;
+
+
+                    renderAppointments();
+
+                }
+            );
+
+        }
+    );
+
+
+// =====================================================
+// SEARCH
+// =====================================================
+
+if (searchInput) {
+
+    searchInput.addEventListener(
+        "input",
+        () => {
+
+            currentSearch =
+                searchInput.value.trim();
+
+            renderAppointments();
 
         }
     );
 
 }
- 
-// =====================================================
-// ESCAPE HTML
-// =====================================================
-
-function escapeHTML(value) {
-
-    return String(value)
-
-        .replace(/&/g, "&amp;")
-
-        .replace(/</g, "&lt;")
-
-        .replace(/>/g, "&gt;")
-
-        .replace(/"/g, "&quot;")
-
-        .replace(/'/g, "&#039;");
-}
 
 
 // =====================================================
-// SHOW ERROR
+// CLEAR SEARCH
 // =====================================================
 
-function showError(message) {
+if (clearSearch) {
 
-    const errorElement =
-        document.getElementById(
-            "errorMessage"
-        );
-
-    if (!errorElement) {
-        return;
-    }
-
-    errorElement.textContent =
-        message;
-
-    errorElement.style.display =
-        "block";
-}
-
-
-// =====================================================
-// HIDE ERROR
-// =====================================================
-
-function hideError() {
-
-    const errorElement =
-        document.getElementById("errorMessage");
-
-
-    errorElement.style.display =
-        "none";
-}
-
-
-// =====================================================
-// SHOW SUCCESS
-// =====================================================
-
-function showSuccess(message) {
-
-    const successElement =
-        document.getElementById(
-            "successMessage"
-        );
-
-    if (!successElement) {
-        return;
-    }
-
-    successElement.textContent =
-        message;
-
-    successElement.classList.add(
-        "show"
-    );
-
-    setTimeout(
+    clearSearch.addEventListener(
+        "click",
         () => {
 
-            successElement.classList.remove(
-                "show"
-            );
+            searchInput.value = "";
 
-        },
-        2500
+            currentSearch = "";
+
+            renderAppointments();
+
+            searchInput.focus();
+
+        }
     );
+
+}
+
+
+// =====================================================
+// REFRESH
+// =====================================================
+
+if (refreshBtn) {
+
+    refreshBtn.addEventListener(
+        "click",
+        loadAppointments
+    );
+
 }
 
 
@@ -689,25 +1396,174 @@ function showSuccess(message) {
 // LOGOUT
 // =====================================================
 
-function logoutAdmin() {
+if (logoutBtn) {
 
-    sessionStorage.removeItem(
-        "brightSmileAdminLoggedIn"
+    logoutBtn.addEventListener(
+        "click",
+        () => {
+
+            sessionStorage.removeItem(
+                "brightSmileAdminLoggedIn"
+            );
+
+            window.location.href =
+                "login.html";
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// MODAL CLOSE
+// =====================================================
+
+const modalClose =
+    document.getElementById(
+        "modal-close"
     );
 
 
-    window.location.href =
-        "login.html";
+if (modalClose) {
+
+    modalClose.addEventListener(
+        "click",
+        closeDetailsModal
+    );
+
 }
 
 
 // =====================================================
-// START DASHBOARD
+// CLEAR ALL
 // =====================================================
 
-const appointmentTable =
-    document.getElementById("appointmentTable");
+if (clearAllBtn) {
 
-if (appointmentTable) {
-    loadDashboard();
+    clearAllBtn.addEventListener(
+        "click",
+        openConfirmModal
+    );
+
 }
+
+
+// =====================================================
+// CANCEL CLEAR
+// =====================================================
+
+const cancelClear =
+    document.getElementById(
+        "cancel-clear"
+    );
+
+
+if (cancelClear) {
+
+    cancelClear.addEventListener(
+        "click",
+        closeConfirmModal
+    );
+
+}
+
+
+// =====================================================
+// CONFIRM CLEAR
+// =====================================================
+
+const confirmClear =
+    document.getElementById(
+        "confirm-clear"
+    );
+
+
+if (confirmClear) {
+
+    confirmClear.addEventListener(
+        "click",
+        clearAllAppointments
+    );
+
+}
+
+
+// =====================================================
+// CLICK OUTSIDE DETAILS MODAL
+// =====================================================
+
+if (detailsModal) {
+
+    detailsModal.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                detailsModal
+            ) {
+
+                closeDetailsModal();
+
+            }
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// CLICK OUTSIDE CONFIRM MODAL
+// =====================================================
+
+if (confirmModal) {
+
+    confirmModal.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                confirmModal
+            ) {
+
+                closeConfirmModal();
+
+            }
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// ESCAPE KEY
+// =====================================================
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key ===
+            "Escape"
+        ) {
+
+            closeDetailsModal();
+
+            closeConfirmModal();
+
+        }
+
+    }
+);
+
+
+// =====================================================
+// INITIAL LOAD
+// =====================================================
+
+loadAppointments();
