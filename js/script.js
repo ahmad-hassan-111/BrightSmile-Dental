@@ -1301,5 +1301,83 @@ if (doctorGrid && doctorNext && doctorPrev) {
 
 }
 // =====================================================
+// TESTIMONIAL CAROUSEL
+// =====================================================
+
+const testimonialGrid =
+    document.querySelector(".testimonial-grid");
+
+const testimonialNext =
+    document.querySelector(".testimonial-next");
+
+const testimonialPrev =
+    document.querySelector(".testimonial-prev");
+
+if (
+    testimonialGrid &&
+    testimonialNext &&
+    testimonialPrev
+) {
+
+    testimonialNext.addEventListener("click", () => {
+
+        testimonialGrid.scrollBy({
+            left: 388,
+            behavior: "smooth"
+        });
+
+    });
+
+
+    testimonialPrev.addEventListener("click", () => {
+
+        testimonialGrid.scrollBy({
+            left: -388,
+            behavior: "smooth"
+        });
+
+    });
+
+}// =====================================================
+// GALLERY HORIZONTAL SLIDER
+// =====================================================
+
+const galleryTrack =
+    document.querySelector(".gallery-track");
+
+const galleryNext =
+    document.querySelector(".gallery-slider-next");
+
+const galleryPrev =
+    document.querySelector(".gallery-slider-prev");
+
+
+if (
+    galleryTrack &&
+    galleryNext &&
+    galleryPrev
+) {
+
+    galleryNext.addEventListener("click", () => {
+
+        galleryTrack.scrollBy({
+            left: 400,
+            behavior: "smooth"
+        });
+
+    });
+
+
+    galleryPrev.addEventListener("click", () => {
+
+        galleryTrack.scrollBy({
+            left: -400,
+            behavior: "smooth"
+        });
+
+    });
+
+}
+// =====================================================
 // END OF BRIGHTSMILE JAVASCRIPT
 // =====================================================

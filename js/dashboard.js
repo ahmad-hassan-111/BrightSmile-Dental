@@ -1042,15 +1042,18 @@ function openDetailsModal(
 
     if (emailButton) {
 
-        if (appointment.email) {
+       if (appointment.email) {
 
-            emailButton.href =
-                `mailto:${appointment.email}`;
+    emailButton.href =
+        `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(appointment.email)}`;
 
-            emailButton.style.display =
-                "inline-flex";
+    emailButton.target = "_blank";
+    emailButton.rel = "noopener noreferrer";
 
-        } else {
+    emailButton.style.display =
+        "inline-flex";
+
+} else {
 
             emailButton.removeAttribute(
                 "href"
